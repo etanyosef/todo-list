@@ -10,9 +10,61 @@
 
 * {
     line-height: 1.8;
-    box-sizing: border-box;
 }
 
-body {
-    background-color: antiquewhite;
+.container {
+    min-height: 100vh;
+    display: grid;
+    flex-direction: column;
 }
+
+/* header start */
+header {
+    background-color: rgb(130, 130, 130);
+    color: white;
+    padding: 10px 40px;
+    top: 0;
+}
+.title {
+    font-family: monospace;
+}
+/* header end */
+
+/* main start */
+.main {
+    display: flex;
+    height: 100%;
+    flex: 1;
+}
+.main nav {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 20px 20px;
+    width: 300px;
+    background-color: antiquewhite;
+    position: sticky;
+}
+.main nav ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 0;
+    padding: 0;
+}
+.main nav ul li button {
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+.main nav ul li button:hover {
+    cursor: pointer;
+}
+
+.main .content {
+    width: 100%;
+    position: static;
+}
+/* main end */
