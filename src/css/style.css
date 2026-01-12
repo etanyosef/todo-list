@@ -1,3 +1,18 @@
+@font-face {
+    font-family: "Dongle";
+    src: url('../assets/font/Dongle-Regular.woff') format('woff');
+}
+
+:root {
+    font-size: 18px;
+    font-family: Roboto, Lato, serif;
+}
+
+* {
+    line-height: 1.8;
+    box-sizing: border-box;
+}
+
 body {
     background-color: antiquewhite;
 }
