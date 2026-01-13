@@ -20,4 +20,5 @@ class Tasks {
 
 export const myTasks = new Tasks();
 myTasks.newTask('awaw', 'wawaawewe', 'karun', 'ambot');
+myTasks.newTask('awaw2', 'wawaawewe2', 'karun', 'ambot');
 
