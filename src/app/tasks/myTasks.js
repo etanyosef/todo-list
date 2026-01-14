@@ -1,5 +1,6 @@
 class Task {
     constructor(title, description, dueDate, priority) {
+        this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -15,6 +16,10 @@ class Tasks {
     newTask(title, description, dueDate, priority) {
         const task = new Task(title, description, dueDate, priority);
         this.tasks.push(task);
+    }
+
+    deleteTask(id) {
+        this.tasks = this.tasks.filter(task => task.id != id);
     }
 }
 

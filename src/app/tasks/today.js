@@ -1,9 +1,10 @@
 import { myTasks } from './myTasks.js';
 
+const body = document.querySelector('body');
 const dialog = document.createElement('dialog');
+const mainContent = document.querySelector('.content');
 
-export default function renderTasksToday() {
-    const mainContent = document.querySelector('.content');
+export default function renderTasksToday() {    
     // clear and set page title
     const pageTitleDiv = document.querySelector('.page-title');
 
@@ -15,6 +16,15 @@ export default function renderTasksToday() {
 
     pageTitleDiv.prepend(pageTitleH2);
 
+    renderTasks();
+
+    createAddTaskDialog();
+    
+}
+
+const renderTasks = () => {
+    // clear content DOM
+    mainContent.textContent = '';
     // display tasks to DOM
     const taskContainerDiv = document.createElement('div');
     
@@ -26,37 +36,43 @@ export default function renderTasksToday() {
         const taskDescription = document.createElement('span');
         const taskDueDate = document.createElement('span');
         const taskPriority = document.createElement('span');    
+        const deleteBtn = document.createElement('button');
         
         taskDiv.classList.add('task');
         taskTitle.classList.add('title');
         taskDescription.classList.add('description');
         taskDueDate.classList.add('due-date');
         taskPriority.classList.add('priority');
+        deleteBtn.classList.add('delete-btn');
         
         taskTitle.textContent = task.title;
         taskDescription.textContent = task.description;
         taskDueDate.textContent = task.dueDate;
         taskPriority.textContent = task.priority;
+        deleteBtn.textContent = 'Delete';
 
         taskDiv.append(taskTitle);
         taskDiv.append(taskDescription);
         taskDiv.append(taskDueDate);
         taskDiv.append(taskPriority);
+        taskDiv.append(deleteBtn);
 
         taskContainerDiv.append(taskDiv);
+
+        deleteBtn.addEventListener('click', () => {
+            myTasks.deleteTask(task.id);
+            renderTasks();
+        });
     });
 
     // add new task button
     const addTaskBtn = document.createElement('button');
     addTaskBtn.classList.add('btn-new-task');
     addTaskBtn.textContent = 'New task';
-    addTaskBtn.addEventListener('click', () => showAddTaskDialog());
+    addTaskBtn.addEventListener('click', () => dialog.showModal() );
     taskContainerDiv.prepend(addTaskBtn);
 
     mainContent.append(taskContainerDiv);
-
-    createAddTaskDialog();
-    mainContent.append(dialog);
 }
 
 const createAddTaskDialog = () => {
@@ -67,10 +83,6 @@ const createAddTaskDialog = () => {
 
     dialogTitle.textContent = 'New Task';
     dialogCloseBtn.textContent = 'Close';
-    dialogCloseBtn.addEventListener('click', () => {
-        document.querySelector('dialog form').reset();
-        dialog.close();
-    });
 
     dialogHead.append(dialogTitle);
     dialogHead.append(dialogCloseBtn);
@@ -186,7 +198,7 @@ const createAddTaskDialog = () => {
     const buttonAddTask = document.createElement('button');
 
     buttonDiv.classList.add('form-group');
-    buttonAddTask.textContent = 'Add Task';
+    buttonAddTask.textContent = 'Save';
     buttonAddTask.type = 'submit';
 
     buttonDiv.append(buttonAddTask);
@@ -195,8 +207,27 @@ const createAddTaskDialog = () => {
     // append dialog header and form to dialog
     dialog.append(dialogHead);
     dialog.append(form);
+    body.append(dialog);
+
+    // event listeners
+    dialogCloseBtn.addEventListener('click', () => {
+        form.reset();
+        dialog.close();
+    });
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // get value of priority radios
+        const priority = form.elements['priority'].value;
+        // add new task
+        addNewTask(titleInput.value, descriptionInput.value, dueDateInput.value, priority);
+        dialog.close();
+        form.reset();
+        // clear content DOM and display new tasks
+        renderTasks();
+    });
 }
 
-const showAddTaskDialog = () => {
-    dialog.showModal();
+const addNewTask = (title, description, dueDate, priority) => {
+    myTasks.newTask(title, description, dueDate, priority);
 }
