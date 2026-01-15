@@ -18,7 +18,7 @@ export default function renderTasksToday() {
 
     renderTasks();
 
-    createAddTaskDialog();
+    createTaskDialog();
     
 }
 
@@ -36,6 +36,8 @@ const renderTasks = () => {
         const taskDescription = document.createElement('span');
         const taskDueDate = document.createElement('span');
         const taskPriority = document.createElement('span');    
+        const buttonsSpan = document.createElement('span');
+        const editBtn = document.createElement('button');
         const deleteBtn = document.createElement('button');
         
         taskDiv.classList.add('task');
@@ -43,21 +45,29 @@ const renderTasks = () => {
         taskDescription.classList.add('description');
         taskDueDate.classList.add('due-date');
         taskPriority.classList.add('priority');
+        editBtn.classList.add('edit-btn');
         deleteBtn.classList.add('delete-btn');
         
         taskTitle.textContent = task.title;
         taskDescription.textContent = task.description;
         taskDueDate.textContent = task.dueDate;
         taskPriority.textContent = task.priority;
+        editBtn.textContent = 'Edit';
         deleteBtn.textContent = 'Delete';
 
         taskDiv.append(taskTitle);
         taskDiv.append(taskDescription);
         taskDiv.append(taskDueDate);
         taskDiv.append(taskPriority);
-        taskDiv.append(deleteBtn);
+        buttonsSpan.append(editBtn);
+        buttonsSpan.append(deleteBtn);
+        taskDiv.append(buttonsSpan);
 
-        taskContainerDiv.append(taskDiv);
+        taskContainerDiv.prepend(taskDiv);
+
+        editBtn.addEventListener('click', () => {
+            editTask(task.id);
+        });
 
         deleteBtn.addEventListener('click', () => {
             myTasks.deleteTask(task.id);
@@ -75,7 +85,7 @@ const renderTasks = () => {
     mainContent.append(taskContainerDiv);
 }
 
-const createAddTaskDialog = () => {
+const createTaskDialog = () => {
     // dialog header
     const dialogHead = document.createElement('div');
     const dialogTitle = document.createElement('h2');
@@ -151,12 +161,12 @@ const createAddTaskDialog = () => {
     const priorityLowRadio = document.createElement('input');
 
     priorityLowLabel.textContent = 'Low';
-    priorityLowLabel.htmlFor = 'priority-low';
+    priorityLowLabel.htmlFor = 'low';
 
     priorityLowRadio.type = 'radio';
     priorityLowRadio.name = 'priority';
-    priorityLowRadio.id = 'priority-low';
-    priorityLowRadio.value = 'Low';
+    priorityLowRadio.id = 'low';
+    priorityLowRadio.value = 'low';
     priorityLowRadio.required = true;
     
     priorityLowLabel.append(priorityLowRadio);
@@ -167,12 +177,12 @@ const createAddTaskDialog = () => {
     const priorityMediumRadio = document.createElement('input');
 
     priorityMediumLabel.textContent = 'Medium';
-    priorityMediumLabel.htmlFor = 'priority-medium';
+    priorityMediumLabel.htmlFor = 'medium';
 
     priorityMediumRadio.type = 'radio';
     priorityMediumRadio.name = 'priority';
-    priorityMediumRadio.id = 'priority-medium';
-    priorityMediumRadio.value = 'Medium';
+    priorityMediumRadio.id = 'medium';
+    priorityMediumRadio.value = 'medium';
 
     priorityMediumLabel.append(priorityMediumRadio);
     priorityFieldset.append(priorityMediumLabel);
@@ -182,12 +192,12 @@ const createAddTaskDialog = () => {
     const priorityHighRadio = document.createElement('input');
 
     priorityHighLabel.textContent = 'High';
-    priorityHighLabel.htmlFor = 'priority-high';
+    priorityHighLabel.htmlFor = 'high';
 
     priorityHighRadio.type = 'radio';
     priorityHighRadio.name = 'priority';
-    priorityHighRadio.id = 'priority-high';
-    priorityHighRadio.value = 'High';
+    priorityHighRadio.id = 'high';
+    priorityHighRadio.value = 'high';
 
     priorityHighLabel.append(priorityHighRadio);
     priorityFieldset.append(priorityHighLabel);
@@ -220,7 +230,7 @@ const createAddTaskDialog = () => {
         // get value of priority radios
         const priority = form.elements['priority'].value;
         // add new task
-        addNewTask(titleInput.value, descriptionInput.value, dueDateInput.value, priority);
+        myTasks.newTask(titleInput.value, descriptionInput.value, dueDateInput.value, priority);
         dialog.close();
         form.reset();
         // clear content DOM and display new tasks
@@ -228,6 +238,22 @@ const createAddTaskDialog = () => {
     });
 }
 
-const addNewTask = (title, description, dueDate, priority) => {
-    myTasks.newTask(title, description, dueDate, priority);
+const editTask = (id) => {
+    const index = myTasks.tasks.findIndex(task => task.id === id);
+    const task = myTasks.tasks[index];
+
+    const title = document.getElementById('task-title');
+    const description = document.getElementById('task-description');
+    const dueDate = document.getElementById('task-due-date');
+    const priority = document.querySelector(`#${task.priority}`);
+
+    title.value = task.title;
+    description.value = task.description;
+    dueDate.value = task.dueDate;
+    console.log(task.priority);
+    priority.setAttribute('checked', true);
+
+
+    dialog.showModal();
+    myTasks.editTask();
 }
