@@ -293,7 +293,7 @@ const renderEditTask = (id) => {
         const data = Object.fromEntries(editTaskData);
 
         console.log(task);
-
+        // TODO: fix edit task code
         task.title = data.title;
         task.description = data.description;
         task.dueDate = data.dueDate;
