@@ -2,6 +2,7 @@ import { myTasks } from './myTasks.js';
 
 const body = document.querySelector('body');
 const dialog = document.createElement('dialog');
+const form = document.createElement('form');
 const mainContent = document.querySelector('.content');
 
 export default function renderTasksToday() {    
@@ -66,7 +67,7 @@ const renderTasks = () => {
         taskContainerDiv.prepend(taskDiv);
 
         editBtn.addEventListener('click', () => {
-            editTask(task.id);
+            renderEditTask(task.id);
         });
 
         deleteBtn.addEventListener('click', () => {
@@ -79,7 +80,10 @@ const renderTasks = () => {
     const addTaskBtn = document.createElement('button');
     addTaskBtn.classList.add('btn-new-task');
     addTaskBtn.textContent = 'New task';
-    addTaskBtn.addEventListener('click', () => dialog.showModal() );
+    addTaskBtn.addEventListener('click', () => {
+        renderAddTask();
+        dialog.showModal();
+    });
     taskContainerDiv.prepend(addTaskBtn);
 
     mainContent.append(taskContainerDiv);
@@ -205,13 +209,7 @@ const createTaskDialog = () => {
 
     // form buttons
     const buttonDiv = document.createElement('div');
-    const buttonAddTask = document.createElement('button');
-
-    buttonDiv.classList.add('form-group');
-    buttonAddTask.textContent = 'Save';
-    buttonAddTask.type = 'submit';
-
-    buttonDiv.append(buttonAddTask);
+    buttonDiv.classList.add('form-buttons');
     form.append(buttonDiv);
 
     // append dialog header and form to dialog
@@ -225,12 +223,30 @@ const createTaskDialog = () => {
         dialog.close();
     });
 
+}
+createTaskDialog();
+
+const renderAddTask = () => {
+    const buttonDiv = document.querySelector('form .form-buttons');
+    const buttonAddTask = document.createElement('button');
+
+    buttonDiv.textContent = '';
+
+    buttonAddTask.textContent = 'Add';
+    buttonAddTask.id = 'add-btn';
+    buttonAddTask.type = 'submit';
+
+    buttonDiv.append(buttonAddTask);
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        // get value of priority radios
-        const priority = form.elements['priority'].value;
-        // add new task
-        myTasks.newTask(titleInput.value, descriptionInput.value, dueDateInput.value, priority);
+
+        // get the input data from form
+        const newTaskData = new FormData(form);
+        const data = Object.fromEntries(newTaskData);
+
+        // add new task and close dialog and clear form
+        myTasks.newTask(data.title, data.description, data.dueDate, data.priority);
         dialog.close();
         form.reset();
         // clear content DOM and display new tasks
@@ -253,7 +269,40 @@ const editTask = (id) => {
     console.log(task.priority);
     priority.setAttribute('checked', true);
 
+    // clear the form-buttons and display the save button for edit
+    const buttonDiv = document.querySelector('form .form-buttons');
+    const buttonAddTask = document.createElement('button');
+
+    buttonDiv.textContent = '';
+
+    buttonAddTask.textContent = 'Save';
+    buttonAddTask.id = 'save-btn';
+    buttonAddTask.type = 'submit';
+
+    buttonDiv.append(buttonAddTask);
+
+    console.log(index);
 
     dialog.showModal();
     myTasks.editTask();
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const editTaskData = new FormData(form);
+        const data = Object.fromEntries(editTaskData);
+
+        console.log(task);
+
+        task.title = data.title;
+        task.description = data.description;
+        task.dueDate = data.dueDate;
+        task.priority = data.priority;
+
+        task.editTask(data.title, data.description, data.dueDate, data.priority);
+
+        dialog.close();
+        form.reset();
+        renderTasks();
+    });
 }
