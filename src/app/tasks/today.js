@@ -18,8 +18,6 @@ export default function renderTasksToday() {
     pageTitleDiv.prepend(pageTitleH2);
 
     renderTasks();
-
-    createTaskDialog();
     
 }
 
@@ -99,10 +97,7 @@ const createTaskDialog = () => {
     dialogCloseBtn.textContent = 'Close';
 
     dialogHead.append(dialogTitle);
-    dialogHead.append(dialogCloseBtn);
-
-    // create form
-    const form = document.createElement('form');
+    dialogHead.append(dialogCloseBtn);    
 
     // task title label and input
     const titleDiv = document.createElement('div');
@@ -114,6 +109,7 @@ const createTaskDialog = () => {
     titleLabel.htmlFor = 'task-title';
     titleInput.type = 'text';
     titleInput.id = 'task-title';
+    titleInput.name = 'title';
     titleInput.required = true;
 
     titleDiv.append(titleLabel);
@@ -130,6 +126,7 @@ const createTaskDialog = () => {
     descriptionLabel.htmlFor = 'task-description';
     descriptionInput.type = 'text';
     descriptionInput.id = 'task-description';
+    descriptionInput.name = 'description';
     descriptionInput.required = true;
 
     descriptionDiv.append(descriptionLabel);
@@ -146,6 +143,7 @@ const createTaskDialog = () => {
     dueDateLabel.htmlFor = 'task-due-date';
     dueDateInput.type = 'date';
     dueDateInput.id = 'task-due-date';
+    dueDateInput.name = 'dueDate';
     dueDateInput.required = true;
 
     dueDateDiv.append(dueDateLabel);
@@ -165,11 +163,11 @@ const createTaskDialog = () => {
     const priorityLowRadio = document.createElement('input');
 
     priorityLowLabel.textContent = 'Low';
-    priorityLowLabel.htmlFor = 'low';
+    priorityLowLabel.htmlFor = 'priority-low';
 
     priorityLowRadio.type = 'radio';
     priorityLowRadio.name = 'priority';
-    priorityLowRadio.id = 'low';
+    priorityLowRadio.id = 'priority-low';
     priorityLowRadio.value = 'low';
     priorityLowRadio.required = true;
     
@@ -181,11 +179,11 @@ const createTaskDialog = () => {
     const priorityMediumRadio = document.createElement('input');
 
     priorityMediumLabel.textContent = 'Medium';
-    priorityMediumLabel.htmlFor = 'medium';
+    priorityMediumLabel.htmlFor = 'priority-medium';
 
     priorityMediumRadio.type = 'radio';
     priorityMediumRadio.name = 'priority';
-    priorityMediumRadio.id = 'medium';
+    priorityMediumRadio.id = 'priority-medium';
     priorityMediumRadio.value = 'medium';
 
     priorityMediumLabel.append(priorityMediumRadio);
@@ -196,11 +194,11 @@ const createTaskDialog = () => {
     const priorityHighRadio = document.createElement('input');
 
     priorityHighLabel.textContent = 'High';
-    priorityHighLabel.htmlFor = 'high';
+    priorityHighLabel.htmlFor = 'priority-high';
 
     priorityHighRadio.type = 'radio';
     priorityHighRadio.name = 'priority';
-    priorityHighRadio.id = 'high';
+    priorityHighRadio.id = 'priority-high';
     priorityHighRadio.value = 'high';
 
     priorityHighLabel.append(priorityHighRadio);
@@ -219,6 +217,7 @@ const createTaskDialog = () => {
 
     // event listeners
     dialogCloseBtn.addEventListener('click', () => {
+        document.querySelector('input[name="priority"]').setAttribute('checked', false);
         form.reset();
         dialog.close();
     });
@@ -254,15 +253,16 @@ const renderAddTask = () => {
     });
 }
 
-const editTask = (id) => {
+const renderEditTask = (id) => {
     const index = myTasks.tasks.findIndex(task => task.id === id);
     const task = myTasks.tasks[index];
 
     const title = document.getElementById('task-title');
     const description = document.getElementById('task-description');
     const dueDate = document.getElementById('task-due-date');
-    const priority = document.querySelector(`#${task.priority}`);
+    const priority = document.querySelector(`#priority-${task.priority}`);
 
+    // set the values to DOM inputs
     title.value = task.title;
     description.value = task.description;
     dueDate.value = task.dueDate;
