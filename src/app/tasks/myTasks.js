@@ -22,7 +22,7 @@ class Tasks {
         this.tasks = this.tasks.filter(task => task.id != id);
     }
 
-    editTask(title, description, dueDate, priority) {
+    updateTask({title, description, dueDate, priority}) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
