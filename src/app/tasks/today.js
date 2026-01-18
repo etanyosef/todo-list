@@ -29,7 +29,7 @@ const renderTasks = () => {
     
     taskContainerDiv.classList.add('task-container');    
 
-    myTasks.tasks.forEach(task => {
+    myTasks.tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
         const taskTitle = document.createElement('span');
         const taskDescription = document.createElement('span');
@@ -65,7 +65,8 @@ const renderTasks = () => {
         taskContainerDiv.prepend(taskDiv);
 
         editBtn.addEventListener('click', () => {
-            renderEditTask(task.id);
+            renderEditTask(task);
+            console.log(task);
         });
 
         deleteBtn.addEventListener('click', () => {
@@ -217,15 +218,18 @@ const createTaskDialog = () => {
 
     // event listeners
     dialogCloseBtn.addEventListener('click', () => {
-        document.querySelector('input[name="priority"]').setAttribute('checked', false);
         form.reset();
         dialog.close();
     });
 
 }
-createTaskDialog();
 
 const renderAddTask = () => {
+    dialog.textContent = '';
+    form.textContent = '';
+    
+    createTaskDialog();
+
     const buttonDiv = document.querySelector('form .form-buttons');
     const buttonAddTask = document.createElement('button');
 
@@ -253,9 +257,14 @@ const renderAddTask = () => {
     });
 }
 
-const renderEditTask = (id) => {
-    const index = myTasks.tasks.findIndex(task => task.id === id);
-    const task = myTasks.tasks[index];
+const renderEditTask = (task) => {
+    dialog.textContent = '';
+    form.textContent = '';
+
+    createTaskDialog();
+
+    // const index = myTasks.tasks.findIndex(task => task.id === id);
+    // const task = myTasks.tasks[index];
 
     const title = document.getElementById('task-title');
     const description = document.getElementById('task-description');
@@ -281,28 +290,36 @@ const renderEditTask = (id) => {
 
     buttonDiv.append(buttonAddTask);
 
-    console.log(index);
-
     dialog.showModal();
-    myTasks.editTask();
 
-    form.addEventListener('submit', (e) => {
+    buttonAddTask.addEventListener('click', (e) => {
         e.preventDefault();
-
-        const editTaskData = new FormData(form);
-        const data = Object.fromEntries(editTaskData);
-
-        console.log(task);
-        // TODO: fix edit task code
-        task.title = data.title;
-        task.description = data.description;
-        task.dueDate = data.dueDate;
-        task.priority = data.priority;
-
-        task.editTask(data.title, data.description, data.dueDate, data.priority);
+        const selectedPriority = document.querySelector('input[name="priority"]:checked').value;
+        
+        task.title = title.value;
+        task.description = description.value;
+        task.dueDate = dueDate.value;
+        task.priority = selectedPriority;
 
         dialog.close();
         form.reset();
         renderTasks();
     });
 }
+
+// const editTask = (task) => {
+//     const editTaskData = new FormData(form);
+//     const data = Object.fromEntries(editTaskData);
+
+//     console.log(editTaskData);
+//     console.log(data);
+//     // TODO: fix edit task code
+//     task.title = data.title;
+//     task.description = data.description;
+//     task.dueDate = data.dueDate;
+//     task.priority = data.priority;
+
+//     dialog.close();
+//     form.reset();
+//     renderTasks();
+// }
