@@ -232,7 +232,7 @@ const renderAddTask = () => {
     createTaskDialog();
 
     const buttonDiv = document.querySelector('form .form-buttons');
-    const buttonAddTask = document.createElement('input');
+    const buttonAddTask = document.createElement('button');
 
     buttonDiv.textContent = '';
     buttonAddTask.textContent = 'Add';
@@ -322,7 +322,7 @@ const validateForm = () => {
         } else {
             const errorMsgPara = document.createElement('p');
             errorMsgPara.textContent = 'Please fill up all the requried fields.';
-            errorMsgPara.classList.add('class', 'error-message');
+            errorMsgPara.classList.add('error-message');
             form.prepend(errorMsgPara);
         }   
         return 1;   
