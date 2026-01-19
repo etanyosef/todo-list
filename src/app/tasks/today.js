@@ -43,7 +43,7 @@ const renderTasks = () => {
         taskTitle.classList.add('title');
         taskDescription.classList.add('description');
         taskDueDate.classList.add('due-date');
-        taskPriority.classList.add('priority');
+        taskPriority.classList.add('priority', task.priority);
         editBtn.classList.add('edit-btn');
         deleteBtn.classList.add('delete-btn');
         
@@ -206,7 +206,7 @@ const createTaskDialog = () => {
     priorityFieldset.append(priorityHighLabel);
     form.append(priorityFieldset);
 
-    // form buttons
+    // append form button div
     const buttonDiv = document.createElement('div');
     buttonDiv.classList.add('form-buttons');
     form.append(buttonDiv);
@@ -221,7 +221,6 @@ const createTaskDialog = () => {
         form.reset();
         dialog.close();
     });
-
 }
 
 const renderAddTask = () => {
@@ -234,7 +233,6 @@ const renderAddTask = () => {
     const buttonAddTask = document.createElement('input');
 
     buttonDiv.textContent = '';
-
     buttonAddTask.textContent = 'Add';
     buttonAddTask.id = 'add-btn';
     buttonAddTask.type = 'submit';
@@ -267,9 +265,6 @@ const renderEditTask = (task) => {
 
     createTaskDialog();
 
-    // const index = myTasks.tasks.findIndex(task => task.id === id);
-    // const task = myTasks.tasks[index];
-
     const title = document.getElementById('task-title');
     const description = document.getElementById('task-description');
     const dueDate = document.getElementById('task-due-date');
@@ -279,7 +274,6 @@ const renderEditTask = (task) => {
     title.value = task.title;
     description.value = task.description;
     dueDate.value = task.dueDate;
-    console.log(task.priority);
     if (priority != null) {
         priority.setAttribute('checked', true);
     }    
@@ -289,7 +283,6 @@ const renderEditTask = (task) => {
     const buttonAddTask = document.createElement('button');
 
     buttonDiv.textContent = '';
-
     buttonAddTask.textContent = 'Save';
     buttonAddTask.id = 'save-btn';
     buttonAddTask.type = 'submit';
