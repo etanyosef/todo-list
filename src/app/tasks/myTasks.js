@@ -44,47 +44,24 @@ myTasks.newTask('awaw', 'wawaawewe', 'karun', 'low');
 myTasks.newTask('awaw2', 'wawaawewe2', 'karun', 'high');
 myTasks.newTask('awaw2', 'wawaawewe2', 'karun', 'medium');
 
-
+export const Projects = [];
 class Project {
     constructor(name) {
-        let id = 0;
-
-        this.id = id;
+        this.id = crypto.randomUUID;
         this.name = name;
         this.tasks = [];
     }
 
     addTask(title, description, dueDate, priority) {
-        this.tasks.push(title, description, dueDate, priority);
-    }
-}
-
-class Projects {
-    constructor() {
-        this.projects = [];        
-    }
-
-    newProject(name) {
-        name = new Project(name);
-        this.projects.push(name);
-    }
-
-    newTask(title, description, dueDate, priority) {
-        this.projects.tasks.push({
-            'title': title, 
-            'description': description, 
-            'dueDate': dueDate, 
-            'priority': priority
-        });
+        this.tasks.push({title, description, dueDate, priority});
     }
 }
 
 console.log(myTasks);
 
-const project1 = new Projects();
-project1.newProject('project 1');
-project1.projects[0].tasks.push('1');
-console.log(project1);
-console.log(project1.projects[0].tasks);
-
-console.log(project1.projects.length);
+Projects.push(new Project('Project2'));
+Projects.push(new Project('project 1'));
+Projects[0].addTask('title', 'descrip', 'anytime', 'low');
+Projects[0].addTask('title2', 'descrip2', 'anytime2', 'medium');
+console.log(Projects);
+// console.log(project1.projects[0].newTask('aw', 'aw', 'anytime', 'low'));
