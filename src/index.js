@@ -4,8 +4,13 @@ import './css/reset.css';
 import renderTasksToday from './app/tasks/today.js';
 import renderTasksWeek from './app/tasks/week.js';
 
+import { renderProjectMenu } from './app/tasks/renderProject.js';
+
+renderProjectMenu();
+
 renderTasksToday();
 
+// task buttons
 const btnToday = document.getElementById('btn-today');
 const btnWeek = document.getElementById('btn-week');
 const btnMonth = document.getElementById('btn-month');
@@ -17,4 +22,5 @@ btnToday.addEventListener('click', () => {
 btnWeek.addEventListener('click', () => {
     renderTasksWeek();
 });
+
 
