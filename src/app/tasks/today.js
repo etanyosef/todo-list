@@ -94,6 +94,8 @@ const createTaskDialog = () => {
     const dialogTitle = document.createElement('h2');
     const dialogCloseBtn = document.createElement('button');
 
+    dialogHead.classList.add('dialog-header');
+
     dialogTitle.textContent = 'New Task';
     dialogCloseBtn.textContent = 'Close';
 
