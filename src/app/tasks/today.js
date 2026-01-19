@@ -231,7 +231,7 @@ const renderAddTask = () => {
     createTaskDialog();
 
     const buttonDiv = document.querySelector('form .form-buttons');
-    const buttonAddTask = document.createElement('button');
+    const buttonAddTask = document.createElement('input');
 
     buttonDiv.textContent = '';
 
@@ -241,8 +241,12 @@ const renderAddTask = () => {
 
     buttonDiv.append(buttonAddTask);
 
-    form.addEventListener('submit', (e) => {
+    buttonAddTask.addEventListener('click', (e) => {
         e.preventDefault();
+
+        if (validateForm() == 1) {
+            return;
+        }
 
         // get the input data from form
         const newTaskData = new FormData(form);
@@ -276,7 +280,9 @@ const renderEditTask = (task) => {
     description.value = task.description;
     dueDate.value = task.dueDate;
     console.log(task.priority);
-    priority.setAttribute('checked', true);
+    if (priority != null) {
+        priority.setAttribute('checked', true);
+    }    
 
     // clear the form-buttons and display the save button for edit
     const buttonDiv = document.querySelector('form .form-buttons');
@@ -294,6 +300,11 @@ const renderEditTask = (task) => {
 
     buttonAddTask.addEventListener('click', (e) => {
         e.preventDefault();
+
+        if (validateForm() == 1) {
+            return;
+        }
+        
         const selectedPriority = document.querySelector('input[name="priority"]:checked').value;
         
         task.title = title.value;
@@ -307,19 +318,18 @@ const renderEditTask = (task) => {
     });
 }
 
-// const editTask = (task) => {
-//     const editTaskData = new FormData(form);
-//     const data = Object.fromEntries(editTaskData);
-
-//     console.log(editTaskData);
-//     console.log(data);
-//     // TODO: fix edit task code
-//     task.title = data.title;
-//     task.description = data.description;
-//     task.dueDate = data.dueDate;
-//     task.priority = data.priority;
-
-//     dialog.close();
-//     form.reset();
-//     renderTasks();
-// }
+const validateForm = () => {
+    if (form.checkValidity() == false) {
+        const errorMsg = document.querySelector('form .error-message');
+        if (errorMsg !== null) {
+            errorMsg.textContent = 'Please fill up all the requried fields.';
+            form.prepend(errorMsg);
+        } else {
+            const errorMsgPara = document.createElement('p');
+            errorMsgPara.textContent = 'Please fill up all the requried fields.';
+            errorMsgPara.classList.add('class', 'error-message');
+            form.prepend(errorMsgPara);
+        }   
+        return 1;   
+    } 
+}
