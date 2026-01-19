@@ -17,8 +17,7 @@ export default function renderTasksToday() {
 
     pageTitleDiv.prepend(pageTitleH2);
 
-    renderTasks();
-    
+    renderTasks();    
 }
 
 const renderTasks = () => {
