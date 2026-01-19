@@ -120,4 +120,21 @@
 .task-container .task .title {
     font-weight: bold;
 }
+.task-container .task .priority {
+    padding: 1px 15px;
+    font-size: 0.85rem;
+    align-self: center;
+    font-weight: bold;
+    border-radius: 5px;
+    color: white;
+}
+.task-container .task .priority.low {
+    background-color: green;
+}
+.task-container .task .priority.medium {
+    background-color: orange;
+}
+.task-container .task .priority.high {
+    background-color: red;
+}
 /* content end */
