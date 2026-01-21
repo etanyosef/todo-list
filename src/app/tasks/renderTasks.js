@@ -77,10 +77,11 @@ export const renderTasks = (project) => {
     const addTaskBtn = document.createElement('button');
     addTaskBtn.classList.add('btn-new-task');
     addTaskBtn.textContent = 'New task';
+
     addTaskBtn.addEventListener('click', () => {
-        renderAddTask();
-        dialog.showModal();
+        renderAddTask(project);
     });
+
     taskContainerDiv.prepend(addTaskBtn);
 
     mainContent.append(taskContainerDiv);
@@ -223,7 +224,7 @@ const createTaskDialog = () => {
     });
 }
 
-const renderAddTask = () => {
+const renderAddTask = (project) => {
     dialog.textContent = '';
     form.textContent = '';
     
@@ -239,6 +240,8 @@ const renderAddTask = () => {
 
     buttonDiv.append(buttonAddTask);
 
+    dialog.showModal();
+
     buttonAddTask.addEventListener('click', (e) => {
         e.preventDefault();
 
@@ -250,12 +253,22 @@ const renderAddTask = () => {
         const newTaskData = new FormData(form);
         const data = Object.fromEntries(newTaskData);
 
-        // add new task and close dialog and clear form
-        myTasks.newTask(data.title, data.description, data.dueDate, data.priority);
-        dialog.close();
-        form.reset();
-        // clear content DOM and display new tasks
-        renderTasks();
+        if (project.name != undefined) {
+            const currentProject = project;
+
+            currentProject.addTask(data.title, data.description, data.dueDate, data.priority);
+            
+            dialog.close();
+            form.reset();
+            renderTasks(currentProject);
+        } else {
+            // add new task and close dialog and clear form
+            myTasks.newTask(data.title, data.description, data.dueDate, data.priority);
+            dialog.close();
+            form.reset();
+            // clear content DOM and display new tasks
+            renderTasks(myTasks);
+        }        
     });
 }
 
