@@ -1,8 +1,7 @@
 import './css/style.css';
 import './css/reset.css';
 
-import renderTasksToday from './app/tasks/today.js';
-import renderTasksWeek from './app/tasks/week.js';
+import renderTasksToday from './app/tasks/renderTasks.js';
 
 import { renderProjectMenu } from './app/tasks/renderProject.js';
 
