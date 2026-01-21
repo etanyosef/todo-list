@@ -64,8 +64,7 @@ export const renderTasks = (project) => {
         taskContainerDiv.prepend(taskDiv);
 
         editBtn.addEventListener('click', () => {
-            renderEditTask(task);
-            console.log(task);
+            renderEditTask(task, project);
         });
 
         deleteBtn.addEventListener('click', () => {
@@ -260,7 +259,7 @@ const renderAddTask = () => {
     });
 }
 
-const renderEditTask = (task) => {
+const renderEditTask = (task, project) => {
     dialog.textContent = '';
     form.textContent = '';
 
@@ -301,14 +300,27 @@ const renderEditTask = (task) => {
         
         const selectedPriority = document.querySelector('input[name="priority"]:checked').value;
         
-        task.title = title.value;
-        task.description = description.value;
-        task.dueDate = dueDate.value;
-        task.priority = selectedPriority;
+        if (project.name != undefined)  {
+            const currentProject = project;
+            task.title = title.value;
+            task.description = description.value;
+            task.dueDate = dueDate.value;
+            task.priority = selectedPriority;
 
-        dialog.close();
-        form.reset();
-        renderTasks();
+            dialog.close();
+            form.reset();
+            renderTasks(currentProject);
+        } else {
+            task.title = title.value;
+            task.description = description.value;
+            task.dueDate = dueDate.value;
+            task.priority = selectedPriority;
+
+            dialog.close();
+            form.reset();
+            renderTasks(myTasks);
+        }       
+        
     });
 }
 
