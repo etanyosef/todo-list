@@ -13,6 +13,9 @@ export const renderProjectMenu = () => {
     const projectBtn = document.createElement('button');
 
     projectBtn.textContent = '+New Project';
+    projectBtn.addEventListener('click', () => {
+        renderAddProject();
+    });
 
     projectLi.append(projectBtn);
     projectsMenuList.append(projectLi);
@@ -35,5 +38,13 @@ export const renderProjectMenu = () => {
             renderTasks(project);
         });
     });
+}
+
+const renderAddProject = () => {
+    const dialog = document.querySelector('dialog');
+
+    dialog.textContent = '';
+
+    dialog.showModal();
 }
 
