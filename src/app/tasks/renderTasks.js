@@ -1,7 +1,7 @@
 import { myTasks } from './myTasks.js';
 
 const body = document.querySelector('body');
-const dialog = document.createElement('dialog');
+const dialog = document.querySelector('dialog');
 const form = document.createElement('form');
 const mainContent = document.querySelector('.content');
 
