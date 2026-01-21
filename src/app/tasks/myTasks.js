@@ -53,7 +53,12 @@ class Project {
     }
 
     addTask(title, description, dueDate, priority) {
-        this.tasks.push({title, description, dueDate, priority});
+        this.tasks.push({
+            title: title, 
+            description: description, 
+            dueDate: dueDate, 
+            priority: priority
+        });
     }
 }
 
@@ -64,4 +69,5 @@ Projects.push(new Project('project 1'));
 Projects[0].addTask('title', 'descrip', 'anytime', 'low');
 Projects[0].addTask('title2', 'descrip2', 'anytime2', 'medium');
 console.log(Projects);
+
 // console.log(project1.projects[0].newTask('aw', 'aw', 'anytime', 'low'));
