@@ -12,22 +12,14 @@ export const renderProjectMenu = () => {
     const projectLi = document.createElement('li');
     const projectBtn = document.createElement('button');
 
-    projectBtn.textContent = '+New Project';
-    projectBtn.addEventListener('click', () => {
-        renderAddProject();
-    });
-
-    projectLi.append(projectBtn);
-    projectsMenuList.append(projectLi);
-
     Projects.forEach(project => {
         const projectLi = document.createElement('li');
         const projectBtn = document.createElement('button');
 
         projectBtn.textContent = project.name;
 
-        projectLi.append(projectBtn);
-        projectsMenuList.append(projectLi);
+        projectLi.prepend(projectBtn);
+        projectsMenuList.prepend(projectLi);
 
         projectBtn.addEventListener('click', () => {
             pageTitleDiv.textContent = '';  
@@ -37,6 +29,14 @@ export const renderProjectMenu = () => {
             pageTitleDiv.prepend(pageTitleH2);
             renderTasks(project);
         });
+    });
+
+    projectLi.append(projectBtn);
+    projectsMenuList.prepend(projectLi);
+
+    projectBtn.textContent = '+New Project';
+    projectBtn.addEventListener('click', () => {
+        renderAddProject();
     });
 }
 
