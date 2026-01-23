@@ -1,5 +1,6 @@
-import { Projects, Project } from "./myTasks.js";
+import { Projects, Project, myTasks } from "./myTasks.js";
 
+import renderTasksToday from "./renderTasks.js";
 import { renderTasks } from "./renderTasks.js";
 
 const mainContent = document.querySelector('.content');
@@ -16,21 +17,21 @@ export const renderProjectMenu = () => {
 
     Projects.forEach(project => {
         const projectLi = document.createElement('li');
-        const newProjectBtn = document.createElement('button');
+        const projectBtn = document.createElement('button');
         const deleteProjectBtn = document.createElement('button');
 
-        newProjectBtn.textContent = project.name;
-        newProjectBtn.classList.add('add-btn');
+        projectBtn.textContent = project.name;
+        projectBtn.classList.add('add-btn');
         deleteProjectBtn.textContent = 'x';
         deleteProjectBtn.classList.add('delete-btn');
 
-        projectLi.prepend(newProjectBtn);
+        projectLi.prepend(projectBtn);
         projectLi.append(deleteProjectBtn);
         projectsMenuList.prepend(projectLi);
 
-        newProjectBtn.addEventListener('click', () => {
+        projectBtn.addEventListener('click', () => {
             pageTitleDiv.textContent = '';  
-            pageTitleH2.textContent = `Project - ${project.name}`;
+            pageTitleH2.textContent = `${project.name}`;
             mainContent.textContent = '';
 
             pageTitleDiv.prepend(pageTitleH2);
