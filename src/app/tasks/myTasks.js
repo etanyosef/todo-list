@@ -47,7 +47,7 @@ myTasks.newTask('awaw2', 'wawaawewe2', 'karun', 'medium');
 export const Projects = [];
 export class Project {
     constructor(name) {
-        this.id = crypto.randomUUID;
+        this.id = crypto.randomUUID();
         this.name = name;
         this.tasks = [];
     }
