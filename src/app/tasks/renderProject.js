@@ -12,35 +12,50 @@ export const renderProjectMenu = () => {
     const projectLi = document.createElement('li');
     const projectBtn = document.createElement('button');
 
+    projectBtn.classList.add('btn-new-project');
+
     Projects.forEach(project => {
         const projectLi = document.createElement('li');
-        const projectBtn = document.createElement('button');
+        const newProjectBtn = document.createElement('button');
+        const deleteProjectBtn = document.createElement('button');
 
-        projectBtn.textContent = project.name;
+        newProjectBtn.textContent = project.name;
+        newProjectBtn.classList.add('add-btn');
+        deleteProjectBtn.textContent = 'x';
+        deleteProjectBtn.classList.add('delete-btn');
 
-        projectLi.prepend(projectBtn);
+        projectLi.prepend(newProjectBtn);
+        projectLi.append(deleteProjectBtn);
         projectsMenuList.prepend(projectLi);
 
-        projectBtn.addEventListener('click', () => {
+        newProjectBtn.addEventListener('click', () => {
             pageTitleDiv.textContent = '';  
             pageTitleH2.textContent = `Project - ${project.name}`;
             mainContent.textContent = '';
 
             pageTitleDiv.prepend(pageTitleH2);
             renderTasks(project);
+
+            // remove sidebar active class if it exist 
+            // and add active class on button clicked
+            const sidebarActiveBtn = document.querySelector('.sidemenu .active');
+            if (sidebarActiveBtn != null) {
+                sidebarActiveBtn.classList.remove('active');
+            }
+            projectLi.classList.add('active');
         });
     });
 
     projectLi.append(projectBtn);
     projectsMenuList.prepend(projectLi);
 
-    projectBtn.textContent = '+New Project';
+    projectBtn.textContent = '+ New Project';
     projectBtn.addEventListener('click', () => {
-        renderAddProject();
+        renderAddProjectDialog();
     });
 }
 
-const renderAddProject = () => {
+const renderAddProjectDialog = () => {
     const dialog = document.querySelector('dialog');
 
     dialog.textContent = '';
