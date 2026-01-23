@@ -44,6 +44,16 @@ export const renderProjectMenu = () => {
             }
             projectLi.classList.add('active');
         });
+
+        deleteProjectBtn.addEventListener('click', () => {
+            // get index of the project 
+            // and splice it from Project array
+            const index = Projects.indexOf(project);
+            Projects.splice(index, 1);
+
+            renderProjectMenu();
+            renderTasksToday();
+        });
     });
 
     projectLi.append(projectBtn);
