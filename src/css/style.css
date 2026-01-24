@@ -144,6 +144,9 @@
     flex-direction: column;
     gap: 14px;
 }
+.content .task-container .task.is-done {
+    filter: brightness(.5);
+}
 
 .content .task-container .btn-new-task {
     border: 2px dashed gray;
@@ -187,6 +190,24 @@
 .task-container .task .priority.high {
     background-color: red;
 }
+.content .task-container .task .task-action {
+    display: flex;
+    gap: 18px;
+}
+.content .task-container .task button:has(svg) {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.content .task-container .task svg {
+    fill: black;
+    width: 1.4rem;
+    align-self: center;
+}
+.content .task-container .task button:hover svg {
+    fill: red;
+}
 /* content end */
 
 /* dialog start */
@@ -204,6 +225,19 @@ dialog:open {
 dialog .dialog-header {
     display: flex;
     justify-content: space-between;
+}
+dialog .dialog-header button {
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+dialog .dialog-header button:hover svg {
+    fill: red;
+}
+dialog .dialog-header svg {
+    fill: black;
+    width: 1.6rem;
 }
 
 dialog form {
@@ -237,6 +271,7 @@ dialog form label {
     display: flex;
     gap: 5px;
     font-weight: bold;
+    color: #323232;
 }
 dialog form label:has(~input:required)::after,
 dialog form legend::after {
