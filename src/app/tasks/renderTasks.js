@@ -37,12 +37,17 @@ export const renderTasks = (project) => {
         const buttonsSpan = document.createElement('span');
         const editBtn = document.createElement('button');
         const deleteBtn = document.createElement('button');
+        const doneBtn = document.createElement('button');
+        const svgEditCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>file-edit-outline</title><path d="M10 20H6V4H13V9H18V12.1L20 10.1V8L14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H10V20M20.2 13C20.3 13 20.5 13.1 20.6 13.2L21.9 14.5C22.1 14.7 22.1 15.1 21.9 15.3L20.9 16.3L18.8 14.2L19.8 13.2C19.9 13.1 20 13 20.2 13M20.2 16.9L14.1 23H12V20.9L18.1 14.8L20.2 16.9Z" /></svg>';
+        const svgDeleteCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>delete-outline</title><path d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" /></svg>';
+        const svgDoneCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>check</title><path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" /></svg>';
         
         taskDiv.classList.add('task');
         taskTitle.classList.add('title');
         taskDescription.classList.add('description');
         taskDueDate.classList.add('due-date');
         taskPriority.classList.add('priority', task.priority);
+        buttonsSpan.classList.add('task-action');
         editBtn.classList.add('edit-btn');
         deleteBtn.classList.add('delete-btn');
         
@@ -50,13 +55,15 @@ export const renderTasks = (project) => {
         taskDescription.textContent = task.description;
         taskDueDate.textContent = task.dueDate;
         taskPriority.textContent = task.priority;
-        editBtn.textContent = 'Edit';
-        deleteBtn.textContent = 'Delete';
+        doneBtn.innerHTML = svgDoneCode;
+        editBtn.innerHTML = svgEditCode;
+        deleteBtn.innerHTML = svgDeleteCode;
 
         taskDiv.append(taskTitle);
         taskDiv.append(taskDescription);
         taskDiv.append(taskDueDate);
         taskDiv.append(taskPriority);
+        buttonsSpan.append(doneBtn);
         buttonsSpan.append(editBtn);
         buttonsSpan.append(deleteBtn);
         taskDiv.append(buttonsSpan);
@@ -92,11 +99,12 @@ const createTaskDialog = () => {
     const dialogHead = document.createElement('div');
     const dialogTitle = document.createElement('h2');
     const dialogCloseBtn = document.createElement('button');
+    const svgCloseCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>';
 
     dialogHead.classList.add('dialog-header');
 
     dialogTitle.textContent = 'New Task';
-    dialogCloseBtn.textContent = 'Close';
+    dialogCloseBtn.innerHTML = svgCloseCode;
 
     dialogHead.append(dialogTitle);
     dialogHead.append(dialogCloseBtn);    
