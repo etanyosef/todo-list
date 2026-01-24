@@ -5,6 +5,11 @@ class Task {
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
+        this.isDone = false;
+    }
+
+    toggleDone() {
+        this.isDone = !this.isDone;
     }
 }
 
