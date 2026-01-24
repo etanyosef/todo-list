@@ -93,9 +93,21 @@
     border-radius: 8px;
     padding: 6px 10px;
 }
+
 .sidebar .sidemenu li .delete-btn {
-    padding: 0 15px;
+    padding: 0;
 }
+.sidebar .sidemenu li .delete-btn:hover svg {
+    fill: red;
+}
+.sidebar .sidemenu li .delete-btn svg {
+    fill: white;
+    width: 1.8rem;
+}
+.sidebar .sidemenu li button:hover ~ button svg {
+    fill: black;
+}
+
 .sidebar .sidemenu li:has(button:hover),
 .sidebar .sidemenu li button:hover ~ button,
 .sidebar .sidemenu li button:has(+ button:hover) {
@@ -184,8 +196,8 @@ dialog:open {
     flex-direction: column;
     gap: 20px;
     border: none;
-    padding: 40px 30px;
-    border-radius: 15px;
+    padding: 14px 20px;
+    border-radius: 8px;
     width: 400px;
 }
 
@@ -210,6 +222,9 @@ dialog form .form-group {
 }
 dialog form .form-group input {
     width: 100%;
+    padding: 2px 4px;
+    border: 1px solid rgb(185, 185, 185);
+    border-radius: 4px;
 }
 dialog form .fieldset {
     border: none;
@@ -243,8 +258,9 @@ dialog form .fieldset label input {
 }
 
 dialog form .form-buttons {
+    margin-top: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: right;
 }
 dialog form .form-buttons button {
     cursor: pointer;
