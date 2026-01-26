@@ -30,6 +30,7 @@ export const renderTasks = (project) => {
 
     project.tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
+        const taskTitleSpan = document.createElement('span');
         const taskTitle = document.createElement('span');
         const taskDescription = document.createElement('span');
         const taskDueDate = document.createElement('span');
@@ -40,9 +41,11 @@ export const renderTasks = (project) => {
         const doneBtn = document.createElement('button');
         const svgEditCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>file-edit-outline</title><path d="M10 20H6V4H13V9H18V12.1L20 10.1V8L14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H10V20M20.2 13C20.3 13 20.5 13.1 20.6 13.2L21.9 14.5C22.1 14.7 22.1 15.1 21.9 15.3L20.9 16.3L18.8 14.2L19.8 13.2C19.9 13.1 20 13 20.2 13M20.2 16.9L14.1 23H12V20.9L18.1 14.8L20.2 16.9Z" /></svg>';
         const svgDeleteCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>delete-outline</title><path d="M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19M8,9H16V19H8V9M15.5,4L14.5,3H9.5L8.5,4H5V6H19V4H15.5Z" /></svg>';
-        const svgDoneCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>check</title><path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z" /></svg>';
+        const svgCheckboxCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-blank-outline</title><path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z" /></svg>';
+        const svgDoneCode = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>checkbox-marked</title><path d="M10,17L5,12L6.41,10.58L10,14.17L17.59,6.58L19,8M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z" /></svg>';
 
         taskDiv.classList.add('task');
+        taskTitleSpan.classList.add('title-span');
         taskTitle.classList.add('title');
         taskDescription.classList.add('description');
         taskDueDate.classList.add('due-date');
@@ -55,23 +58,25 @@ export const renderTasks = (project) => {
         taskDescription.textContent = task.description;
         taskDueDate.textContent = task.dueDate;
         taskPriority.textContent = task.priority;
-        doneBtn.innerHTML = svgDoneCode;
         editBtn.innerHTML = svgEditCode;
         deleteBtn.innerHTML = svgDeleteCode;
-
-        taskDiv.append(taskTitle);
+        
+        taskTitleSpan.append(doneBtn);
+        taskTitleSpan.append(taskTitle);
+        taskDiv.append(taskTitleSpan);
         taskDiv.append(taskDescription);
         taskDiv.append(taskDueDate);
         taskDiv.append(taskPriority);
-        buttonsSpan.append(doneBtn);
         buttonsSpan.append(editBtn);
         buttonsSpan.append(deleteBtn);
         taskDiv.append(buttonsSpan);
 
         if (task.isDone == false) {
+            doneBtn.innerHTML = svgCheckboxCode;
             taskContainerDiv.prepend(taskDiv);
         } else {
             taskDiv.classList.add('is-done');
+            doneBtn.innerHTML = svgDoneCode;
             taskContainerDiv.append(taskDiv);
         }
 
