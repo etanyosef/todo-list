@@ -17,7 +17,7 @@ export default function renderTasksToday() {
 
     pageTitleDiv.prepend(pageTitleH2);
 
-    renderTasks(myTasks);    
+    renderToday(); 
 }
 
 export const renderTasks = (project) => {
@@ -76,9 +76,13 @@ export const renderTasks = (project) => {
         }
 
         doneBtn.addEventListener('click', ()=> {
-            console.log(task.isDone);
-            task.toggleDone();
-            renderTasks(myTasks);
+            if (project.name != undefined) {
+                task.isDone = !task.isDone;
+                renderTasks(project);
+            } else {
+                task.toggleDone();
+                renderToday();
+            }
         });
 
         editBtn.addEventListener('click', () => {
@@ -92,7 +96,7 @@ export const renderTasks = (project) => {
                 renderTasks(project);
             } else {
                 myTasks.deleteTask(task.id);
-                renderTasks(myTasks);
+                renderToday();
             }
         });
     });
@@ -376,4 +380,10 @@ const validateForm = () => {
         }   
         return 1;   
     } 
+}
+
+const renderToday = () => {
+    const btnToday = document.querySelector('#btn-today');
+    btnToday.parentNode.classList.add('active');
+    renderTasks(myTasks);
 }
