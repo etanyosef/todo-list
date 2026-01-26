@@ -145,7 +145,10 @@
     gap: 14px;
 }
 .content .task-container .task.is-done {
-    filter: brightness(.5);
+    filter: brightness(.8);
+}
+.content .task-container .task.is-done .title-span svg {
+    fill: red;
 }
 
 .content .task-container .btn-new-task {
@@ -168,6 +171,11 @@
     border-radius: 5px;
     background-color: rgb(230, 230, 230);
     box-shadow: 1px 1px 2px rgba(128, 128, 128, 0.4);
+}
+.task-container .task .title-span {
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 .task-container .task .title {
     font-weight: bold;
