@@ -86,8 +86,14 @@ export const renderTasks = (project) => {
         });
 
         deleteBtn.addEventListener('click', () => {
-            myTasks.deleteTask(task.id);
-            renderTasks(myTasks);
+            // check if its in a project
+            if (project.name != undefined) {
+                project.deleteTask(task.id);
+                renderTasks(project);
+            } else {
+                myTasks.deleteTask(task.id);
+                renderTasks(myTasks);
+            }
         });
     });
 
