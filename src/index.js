@@ -22,4 +22,15 @@ btnWeek.addEventListener('click', () => {
     renderTasksWeek();
 });
 
+const sidebarBtn = document.querySelectorAll('.sidebar .nav-btn');
+sidebarBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const menuLiAll = document.querySelectorAll('.sidebar li');
+        menuLiAll.forEach(li => {
+            li.classList.remove('active');
+        });
+        btn.parentNode.classList.add('active');
+    })
+});
+
 
