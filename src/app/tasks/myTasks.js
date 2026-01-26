@@ -63,7 +63,8 @@ export class Project {
             title: title, 
             description: description, 
             dueDate: dueDate, 
-            priority: priority
+            priority: priority,
+            isDone: false
         });
     }
 
