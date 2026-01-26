@@ -57,7 +57,7 @@ export class Project {
         this.tasks = [];
     }
 
-    addTask(id, title, description, dueDate, priority) {
+    addTask(title, description, dueDate, priority) {
         this.tasks.push({
             id: crypto.randomUUID(),
             title: title, 
