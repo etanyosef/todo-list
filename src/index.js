@@ -1,25 +1,25 @@
 import './css/style.css';
 import './css/reset.css';
 
-import renderTasksToday from './app/tasks/renderTasks.js';
+import renderInbox, { renderWeekTasks } from './app/tasks/renderTasks.js';
 
 import { renderProjectMenu } from './app/tasks/renderProject.js';
 
+// render projects menu and inbox tasks
 renderProjectMenu();
-
-renderTasksToday();
+renderInbox();
 
 // task buttons
-const btnToday = document.getElementById('btn-today');
+const btnInbox = document.getElementById('btn-inbox');
 const btnWeek = document.getElementById('btn-week');
 const btnMonth = document.getElementById('btn-month');
 
-btnToday.addEventListener('click', () => {
-    renderTasksToday();
+btnInbox.addEventListener('click', () => {
+    renderInbox();
 });
 
 btnWeek.addEventListener('click', () => {
-    renderTasksWeek();
+    renderWeekTasks();
 });
 
 const sidebarBtn = document.querySelectorAll('.sidebar .nav-btn');
@@ -32,5 +32,3 @@ sidebarBtn.forEach(btn => {
         btn.parentNode.classList.add('active');
     })
 });
-
-
