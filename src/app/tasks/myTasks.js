@@ -45,9 +45,9 @@ class Tasks {
 }
 
 export const myTasks = new Tasks();
-myTasks.newTask('awaw', 'wawaawewe', 'karun', 'low');
-myTasks.newTask('awaw2', 'wawaawewe2', 'karun', 'high');
-myTasks.newTask('awaw2', 'wawaawewe2', 'karun', 'medium');
+myTasks.newTask('awaw', 'wawaawewe', '2026-1-27', 'low');
+myTasks.newTask('awaw2', 'wawaawewe2', '2026-1-28', 'high');
+myTasks.newTask('awaw2', 'wawaawewe2', '2026-1-29', 'medium');
 
 export const Projects = [];
 export class Project {
@@ -77,8 +77,8 @@ console.log(myTasks);
 
 Projects.push(new Project('Project2'));
 Projects.push(new Project('project 1'));
-Projects[0].addTask('title', 'descrip', 'anytime', 'low');
-Projects[0].addTask('title2', 'descrip2', 'anytime2', 'medium');
+Projects[0].addTask('title', 'descrip', '2026-2-1', 'low');
+Projects[0].addTask('title2', 'descrip2', '2026-2-2', 'medium');
 console.log(Projects);
 
 // console.log(project1.projects[0].newTask('aw', 'aw', 'anytime', 'low'));
