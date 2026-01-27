@@ -181,19 +181,33 @@
 .content .task-container .task {
     display: flex;
     justify-content: space-between;
-
+    align-items: center;
     padding: 8px 16px;
     border-radius: 5px;
     background-color: rgb(230, 230, 230);
     border: 1px solid rgb(205, 205, 205);
     box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.2);
 }
+.content .task-container .today {
+    color: rgb(125, 162, 0);
+}
+.content .task-container .past {
+    color: red;
+}
 .task-container .task .title-span {
     display: flex;
     align-items: center;
     gap: 14px;
+    flex-shrink: 0;
 }
 .task-container .task .title {
+    font-weight: bold;
+}
+.task-container .task .description {
+    font-size: 0.9rem;
+}
+.task-container .task .due-date {
+    font-size: 0.85rem;
     font-weight: bold;
 }
 .task-container .task .priority {
