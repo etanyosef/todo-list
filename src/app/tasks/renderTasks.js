@@ -1,4 +1,5 @@
 import { myTasks } from './myTasks.js';
+import { format, formatDistance, isPast, isToday, subDays, toDate } from 'date-fns';
 
 const body = document.querySelector('body');
 const dialog = document.querySelector('dialog');
@@ -56,7 +57,7 @@ export const renderTasks = (project) => {
         
         taskTitle.textContent = task.title;
         taskDescription.textContent = task.description;
-        taskDueDate.textContent = task.dueDate;
+        taskDueDate.textContent = format(new Date(task.dueDate), 'MMM do, yyyy');
         taskPriority.textContent = task.priority;
         editBtn.innerHTML = svgEditCode;
         deleteBtn.innerHTML = svgDeleteCode;
@@ -70,6 +71,13 @@ export const renderTasks = (project) => {
         buttonsSpan.append(editBtn);
         buttonsSpan.append(deleteBtn);
         taskDiv.append(buttonsSpan);
+
+        // check task if it's today or past
+        if (isToday(toDate(task.dueDate))) {
+            taskDueDate.classList.add('today');
+        } else if (isPast(task.dueDate)) {
+            taskDueDate.classList.add('past');
+        }
 
         if (task.isDone == false) {
             doneBtn.innerHTML = svgCheckboxCode;
