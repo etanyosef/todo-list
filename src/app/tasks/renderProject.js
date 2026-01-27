@@ -34,8 +34,6 @@ export const renderProjectMenu = () => {
         projectsMenuList.prepend(projectLi);
 
         projectBtn.addEventListener('click', () => {
-            const currentProject = project.id;
-            console.log(currentProject);
             pageTitleDiv.textContent = '';  
             pageTitleH2.textContent = `${project.name}`;
             mainContent.textContent = '';
