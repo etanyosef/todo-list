@@ -1,24 +1,40 @@
-import { myTasks } from './myTasks.js';
-import { format, formatDistance, isPast, isToday, subDays, toDate } from 'date-fns';
+import { myTasks, Tasks } from './myTasks.js';
+import { format, isPast, isThisWeek, isToday, toDate } from 'date-fns';
 
 const body = document.querySelector('body');
 const dialog = document.querySelector('dialog');
 const form = document.createElement('form');
 const mainContent = document.querySelector('.content');
+const pageTitleDiv = document.querySelector('.page-title');
+const pageTitleH2 = document.createElement('h2');
 
-export default function renderTasksToday() {    
+export default function renderInbox() {    
     // clear and set page title
-    const pageTitleDiv = document.querySelector('.page-title');
-
-    const pageTitleH2 = document.createElement('h2');
-
-    pageTitleDiv.textContent = '';  
-    pageTitleH2.textContent = 'Today';
-    mainContent.textContent = '';
+    pageTitleDiv.textContent = '';
+    pageTitleH2.textContent = 'Inbox';
 
     pageTitleDiv.prepend(pageTitleH2);
 
-    renderToday(); 
+    const btnToday = document.querySelector('#btn-inbox');
+    btnToday.parentNode.classList.add('active');
+
+    renderTasks(myTasks); 
+}
+
+export const renderWeekTasks = () => {
+    pageTitleH2.textContent = 'Week';
+
+    const thisWeekTasks = new Tasks();
+    myTasks.tasks.forEach(task => {
+        if (isThisWeek(task.dueDate)) {
+            thisWeekTasks.tasks.push(task);
+        }
+    });
+    renderTasks(thisWeekTasks);
+}
+
+export const renderMonthTasks = () => {
+
 }
 
 export const renderTasks = (project) => {
@@ -79,6 +95,7 @@ export const renderTasks = (project) => {
             taskDueDate.classList.add('past');
         }
 
+        // check if the task is done
         if (task.isDone == false) {
             doneBtn.innerHTML = svgCheckboxCode;
             taskContainerDiv.prepend(taskDiv);
@@ -94,7 +111,7 @@ export const renderTasks = (project) => {
                 renderTasks(project);
             } else {
                 task.toggleDone();
-                renderToday();
+                renderDefaultTasks();
             }
         });
 
@@ -108,8 +125,9 @@ export const renderTasks = (project) => {
                 project.deleteTask(task.id);
                 renderTasks(project);
             } else {
+
                 myTasks.deleteTask(task.id);
-                renderToday();
+                renderDefaultTasks();
             }
         });
     });
@@ -309,7 +327,7 @@ const renderAddTask = (project) => {
             dialog.close();
             form.reset();
             // clear content DOM and display new tasks
-            renderTasks(myTasks);
+            renderDefaultTasks();
         }        
     });
 }
@@ -373,10 +391,20 @@ const renderEditTask = (task, project) => {
 
             dialog.close();
             form.reset();
-            renderTasks(myTasks);
+
+            renderDefaultTasks();
         }       
         
     });
+}
+
+const renderDefaultTasks = () => {
+    const pageTitle = document.querySelector('.page-title h2');
+    if (pageTitle.textContent == 'Week') {                
+        renderWeekTasks();
+    } else {
+        renderTasks(myTasks);
+    }
 }
 
 const validateForm = () => {
@@ -393,10 +421,4 @@ const validateForm = () => {
         }   
         return 1;   
     } 
-}
-
-const renderToday = () => {
-    const btnToday = document.querySelector('#btn-today');
-    btnToday.parentNode.classList.add('active');
-    renderTasks(myTasks);
 }
