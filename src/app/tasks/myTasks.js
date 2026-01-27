@@ -13,7 +13,7 @@ class Task {
     }
 }
 
-class Tasks {
+export class Tasks {
     constructor() {
         this.tasks = [];
     }
