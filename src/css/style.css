@@ -87,6 +87,9 @@
     color: #e5e5e5;
     text-align: left;
 }
+.sidebar .tasks-menu li button {
+    width: 100%;
+}
 .sidebar .sidemenu li {
     display: flex;
     justify-content: space-between;
