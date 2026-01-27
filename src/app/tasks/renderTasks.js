@@ -1,5 +1,5 @@
 import { myTasks, Tasks } from './myTasks.js';
-import { format, isPast, isThisWeek, isToday, toDate } from 'date-fns';
+import { format, isPast, isThisMonth, isThisWeek, isToday, toDate } from 'date-fns';
 
 const body = document.querySelector('body');
 const dialog = document.querySelector('dialog');
@@ -34,7 +34,15 @@ export const renderWeekTasks = () => {
 }
 
 export const renderMonthTasks = () => {
+    pageTitleH2.textContent = 'Month';
 
+    const thisMonthTasks = new Tasks();
+    myTasks.tasks.forEach(task => {
+        if (isThisMonth(task.dueDate)) {
+            thisMonthTasks.tasks.push(task);
+        }
+    });
+    renderTasks(thisMonthTasks);
 }
 
 export const renderTasks = (project) => {
@@ -402,6 +410,8 @@ const renderDefaultTasks = () => {
     const pageTitle = document.querySelector('.page-title h2');
     if (pageTitle.textContent == 'Week') {                
         renderWeekTasks();
+    } else if (pageTitle.textContent == 'Month') {
+        renderMonthTasks();
     } else {
         renderTasks(myTasks);
     }
