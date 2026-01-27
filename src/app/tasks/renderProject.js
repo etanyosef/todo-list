@@ -36,7 +36,6 @@ export const renderProjectMenu = () => {
         projectBtn.addEventListener('click', () => {
             pageTitleDiv.textContent = '';  
             pageTitleH2.textContent = `${project.name}`;
-            mainContent.textContent = '';
 
             pageTitleDiv.prepend(pageTitleH2);
             renderTasks(project);
