@@ -1,7 +1,7 @@
 import './css/style.css';
 import './css/reset.css';
 
-import renderInbox, { renderWeekTasks } from './app/tasks/renderTasks.js';
+import renderInbox, { renderMonthTasks, renderWeekTasks } from './app/tasks/renderTasks.js';
 
 import { renderProjectMenu } from './app/tasks/renderProject.js';
 
@@ -21,6 +21,10 @@ btnInbox.addEventListener('click', () => {
 btnWeek.addEventListener('click', () => {
     renderWeekTasks();
 });
+
+btnMonth.addEventListener('click', () => {
+    renderMonthTasks();
+})
 
 const sidebarBtn = document.querySelectorAll('.sidebar .nav-btn');
 sidebarBtn.forEach(btn => {
