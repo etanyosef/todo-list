@@ -1,5 +1,8 @@
 import { myTasks, Tasks } from './myTasks.js';
 import { format, isPast, isThisMonth, isThisWeek, isToday, toDate } from 'date-fns';
+import { getTasksFromStorage, myLocalStorage, setTasksToStorage } from './localStorage.js';
+
+const getStorageTasks = getTasksFromStorage();
 
 const body = document.querySelector('body');
 const dialog = document.querySelector('dialog');
@@ -18,14 +21,15 @@ export default function renderInbox() {
     const btnToday = document.querySelector('#btn-inbox');
     btnToday.parentNode.classList.add('active');
 
-    renderTasks(myTasks); 
+    renderDefaultTasks();
+    console.log(getStorageTasks);
 }
 
 export const renderWeekTasks = () => {
     pageTitleH2.textContent = 'Week';
 
     const thisWeekTasks = new Tasks();
-    myTasks.tasks.forEach(task => {
+    getStorageTasks.tasks.forEach(task => {
         if (isThisWeek(task.dueDate)) {
             thisWeekTasks.tasks.push(task);
         }
@@ -37,7 +41,7 @@ export const renderMonthTasks = () => {
     pageTitleH2.textContent = 'Month';
 
     const thisMonthTasks = new Tasks();
-    myTasks.tasks.forEach(task => {
+    getStorageTasks.tasks.forEach(task => {
         if (isThisMonth(task.dueDate)) {
             thisMonthTasks.tasks.push(task);
         }
@@ -52,6 +56,10 @@ export const renderTasks = (project) => {
     const taskContainerDiv = document.createElement('div');
     
     taskContainerDiv.classList.add('task-container');    
+
+    if (project == null) {
+        return;
+    }
 
     project.tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
@@ -136,6 +144,9 @@ export const renderTasks = (project) => {
 
                 myTasks.deleteTask(task.id);
                 renderDefaultTasks();
+                // save tasks to local storage
+                setTasksToStorage(myTasks);
+                console.log(getStorageTasks);
             }
         });
     });
@@ -330,12 +341,18 @@ const renderAddTask = (project) => {
             form.reset();
             renderTasks(currentProject);
         } else {
-            // add new task and close dialog and clear form
-            myTasks.newTask(data.title, data.description, data.dueDate, data.priority);
+            // add new task
+            const newTask = myTasks.newTask(data.title, data.description, data.dueDate, data.priority);
+            console.log(newTask);
+            // save new tasks to localStorage
+            const storageTasks = myLocalStorage.get();
+            console.log(storageTasks);
+            myLocalStorage.set(newTask);
+            // close dialog and clear form
             dialog.close();
             form.reset();
             // clear content DOM and display new tasks
-            renderDefaultTasks();
+            renderDefaultTasks();            
         }        
     });
 }
@@ -413,7 +430,7 @@ const renderDefaultTasks = () => {
     } else if (pageTitle.textContent == 'Month') {
         renderMonthTasks();
     } else {
-        renderTasks(myTasks);
+        renderTasks(getStorageTasks);
     }
 }
 
