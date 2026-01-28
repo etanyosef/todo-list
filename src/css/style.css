@@ -130,6 +130,9 @@
     color: black;
     background-color: #e5e5e5;
 }
+.sidebar .sidemenu .active button svg {
+    fill: black;
+}
 .sidebar .sidemenu li:has(.btn-new-project) {
     background-color: #717171;
     color: #e5e5e5;
@@ -187,7 +190,14 @@
     border-radius: 5px;
     background-color: rgb(230, 230, 230);
     border: 1px solid rgb(205, 205, 205);
-    box-shadow: 1px 1px 10px rgba(128, 128, 128, 0.2);
+    box-shadow: 0.5px 0.5px 4px rgba(128, 128, 128, 0.2);
+    border-left: 8px solid green;
+}
+.content .task-container .task:has(.today) {
+    border-left: 8px solid orange;
+}
+.content .task-container .task:has(.past) {
+    border-left: 8px solid red;
 }
 .content .task-container .due-date {
     color: green;
