@@ -2,8 +2,6 @@ import { myTasks, Tasks } from './myTasks.js';
 import { format, isPast, isThisMonth, isThisWeek, isToday, toDate } from 'date-fns';
 import { getTasksFromStorage, myLocalStorage, setTasksToStorage } from './localStorage.js';
 
-const getStorageTasks = getTasksFromStorage();
-
 const body = document.querySelector('body');
 const dialog = document.querySelector('dialog');
 const form = document.createElement('form');
@@ -22,7 +20,6 @@ export default function renderInbox() {
     btnToday.parentNode.classList.add('active');
 
     renderDefaultTasks();
-    console.log(getStorageTasks);
 }
 
 export const renderWeekTasks = () => {
@@ -342,12 +339,11 @@ const renderAddTask = (project) => {
             renderTasks(currentProject);
         } else {
             // add new task
-            const newTask = myTasks.newTask(data.title, data.description, data.dueDate, data.priority);
-            console.log(newTask);
+            const newTask = myTasks.newTask(data.title, data.description, data.dueDate, data.priority, false);
             // save new tasks to localStorage
             const storageTasks = myLocalStorage.get();
-            console.log(storageTasks);
-            myLocalStorage.set(newTask);
+            storageTasks.tasks.push(newTask);
+            myLocalStorage.set(storageTasks);
             // close dialog and clear form
             dialog.close();
             form.reset();
