@@ -429,7 +429,8 @@ const renderDefaultTasks = () => {
     } else if (pageTitle.textContent == 'Month') {
         renderMonthTasks();
     } else {
-        renderTasks(getStorageTasks);
+        const data = myLocalStorage.get();
+        renderTasks(data);
     }
 }
 
