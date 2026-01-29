@@ -414,6 +414,9 @@ const renderEditTask = (task, project) => {
             task.dueDate = dueDate.value;
             task.priority = selectedPriority;
 
+            // save tasks to localStorage
+            myLocalStorage.set(project)
+
             dialog.close();
             form.reset();
 
