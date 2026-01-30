@@ -348,9 +348,9 @@ const renderAddTask = (project) => {
                 crypto.randomUUID() ,data.title, data.description, data.dueDate, data.priority, false
             );
             // save new tasks to localStorage
-            const storageTasks = myLocalStorage.get();
+            const storageTasks = myLocalStorage.get('myTasks');
             storageTasks.tasks.push(newTask);
-            myLocalStorage.set(storageTasks);
+            myLocalStorage.set('myTasks', storageTasks);
             // close dialog and clear form
             dialog.close();
             form.reset();
@@ -435,7 +435,7 @@ const renderDefaultTasks = () => {
     } else if (pageTitle.textContent == 'Month') {
         renderMonthTasks();
     } else {
-        const data = myLocalStorage.get();
+        const data = myLocalStorage.get('myTasks');
         renderTasks(data);
     }
 }
