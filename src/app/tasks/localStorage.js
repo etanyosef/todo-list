@@ -1,3 +1,5 @@
+import { Tasks } from './myTasks.js';
+
 export const myLocalStorage = {
     set(data) {
         localStorage.setItem('myTasks', JSON.stringify(data));
@@ -5,7 +7,10 @@ export const myLocalStorage = {
 
     get() {
         const data = localStorage.getItem('myTasks');
-        return data ? JSON.parse(data) : null;
+        if (!data) {
+            myLocalStorage.set(new Tasks());
+        } else {
+            return data ? JSON.parse(data) : null;
+        }        
     }
 }
-
