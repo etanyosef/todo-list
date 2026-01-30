@@ -339,7 +339,9 @@ const renderAddTask = (project) => {
             renderTasks(currentProject);
         } else {
             // add new task
-            const newTask = myTasks.newTask(data.title, data.description, data.dueDate, data.priority, false);
+            const newTask = myTasks.newTask(
+                crypto.randomUUID() ,data.title, data.description, data.dueDate, data.priority, false
+            );
             // save new tasks to localStorage
             const storageTasks = myLocalStorage.get();
             storageTasks.tasks.push(newTask);
