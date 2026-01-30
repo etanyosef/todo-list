@@ -18,10 +18,10 @@ export class Tasks {
         this.tasks = [];
     }
 
-    newTask(title, description, dueDate, priority, isDone) {
-        const task = new Task(title, description, dueDate, priority, isDone);
+    newTask(id, title, description, dueDate, priority, isDone) {
+        const task = new Task(id, title, description, dueDate, priority, isDone);
         this.tasks.push(task);
-        return ({title, description, dueDate, priority, isDone});
+        return ({id, title, description, dueDate, priority, isDone});
     }
 
     deleteTask(id) {
