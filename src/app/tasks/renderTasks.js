@@ -57,7 +57,7 @@ export const renderTasks = (project) => {
     if (project == null) {
         project = myLocalStorage.get();
     } else {
-    project.tasks.forEach((task) => {
+        project.tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
         const taskTitleSpan = document.createElement('span');
         const taskTitle = document.createElement('span');
@@ -137,15 +137,22 @@ export const renderTasks = (project) => {
                 project.deleteTask(task.id);
                 renderTasks(project);
             } else {
-
-                myTasks.deleteTask(task.id);
-                renderDefaultTasks();
+                const data = myLocalStorage.get(project);
+                console.log(data.tasks);
+                console.log(task.id);
+                const taskId = task.id;
+                data.tasks = data.tasks.filter(task => task.id != taskId);
+                console.log(data);
+                myLocalStorage.set(data);
                 // save tasks to local storage
-                setTasksToStorage(myTasks);
-                console.log(getStorageTasks);
+                // myLocalStorage.set(myTasks);
+                renderDefaultTasks();
             }
         });
     });
+    }
+
+    
 
     // add new task button
     const addTaskBtn = document.createElement('button');
@@ -155,7 +162,6 @@ export const renderTasks = (project) => {
     addTaskBtn.addEventListener('click', () => {
         renderAddTask(project);
     });
-
     taskContainerDiv.prepend(addTaskBtn);
 
     mainContent.append(taskContainerDiv);
@@ -393,8 +399,7 @@ const renderEditTask = (task, project) => {
             return;
         }
         
-        const selectedPriority = document.querySelector('input[name="priority"]:checked').value;
-        
+        const selectedPriority = document.querySelector('input[name="priority"]:checked').value;        
         if (project.name != undefined)  {
             const currentProject = project;
             task.title = title.value;
