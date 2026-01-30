@@ -55,9 +55,8 @@ export const renderTasks = (project) => {
     taskContainerDiv.classList.add('task-container');    
 
     if (project == null) {
-        return;
-    }
-
+        project = myLocalStorage.get();
+    } else {
     project.tasks.forEach((task) => {
         const taskDiv = document.createElement('div');
         const taskTitleSpan = document.createElement('span');
