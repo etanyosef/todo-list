@@ -1,3 +1,4 @@
+import { myLocalStorage } from "./localStorage.js";
 import { Projects, Project, myTasks } from "./myTasks.js";
 
 import renderTasksToday from "./renderTasks.js";
@@ -18,7 +19,10 @@ export const renderProjectMenu = () => {
 
     projectBtn.classList.add('btn-new-project');
 
-    Projects.forEach(project => {
+    const myProjects = myLocalStorage.get('Projects');
+
+    myProjects.forEach(project => {
+        console.log(project);
         const projectLi = document.createElement('li');
         const projectBtn = document.createElement('button');
         const deleteProjectBtn = document.createElement('button');
