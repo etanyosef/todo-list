@@ -120,7 +120,7 @@ export const renderTasks = (project) => {
             } else {
                 task.toggleDone();
                 renderDefaultTasks();
-                myTasks.saveToLocalStorage('myTasks');
+                myTasks.saveToLocalStorage();
             }
         });
 
@@ -135,7 +135,7 @@ export const renderTasks = (project) => {
                 renderTasks(project);
             } else {
                 myTasks.deleteTask(task.id);
-                myTasks.saveToLocalStorage('myTasks');
+                myTasks.saveToLocalStorage();
                 renderDefaultTasks();
             }
         });
@@ -336,7 +336,7 @@ const renderAddTask = (project) => {
                 crypto.randomUUID, data.title, data.description, data.dueDate, data.priority, false
             );
             // save tasks to localStorage
-            myTasks.saveToLocalStorage('myTasks');
+            myTasks.saveToLocalStorage();
             // close dialog and clear form
             dialog.close();
             form.reset();
@@ -403,7 +403,7 @@ const renderEditTask = (task, project) => {
             task.dueDate = dueDate.value;
             task.priority = selectedPriority;
 
-            myTasks.saveToLocalStorage('myTasks');
+            myTasks.saveToLocalStorage();
             dialog.close();
             form.reset();
             renderDefaultTasks();
