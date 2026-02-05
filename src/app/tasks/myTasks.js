@@ -1,11 +1,11 @@
 class Task {
-    constructor(title, description, dueDate, priority) {
-        this.id = crypto.randomUUID();
+    constructor(id, title, description, dueDate, priority, isDone) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.isDone = false;
+        this.isDone = isDone;
     }
 
     toggleDone() {
@@ -18,8 +18,8 @@ export class Tasks {
         this.tasks = [];
     }
 
-    newTask(title, description, dueDate, priority) {
-        const task = new Task(title, description, dueDate, priority);
+    newTask(id, title, description, dueDate, priority, isDone) {
+        const task = new Task(id, title, description, dueDate, priority, isDone);
         this.tasks.push(task);
     }
 
@@ -42,12 +42,40 @@ export class Tasks {
             priority: this.priority,
         }
     }
+
+    saveToLocalStorage(key) {
+        try {
+            const jsonData = JSON.stringify(this);
+            localStorage.setItem(key, jsonData);
+        } catch(error) {
+            console.error("Error saving to localStorage:", error);
+        }
+    }
+
+    static loadFromLocalStorage(myTasks) {
+        try {
+            const jsonData = localStorage.getItem(myTasks);
+            if (!jsonData) {
+                console.warn(`No data found in localStorage for key: ${myTasks}`);
+                return null;
+            }
+            const data = JSON.parse(jsonData);
+
+            // rehydrate into class instance;
+            return new Task(
+                data.id, data.title, data.description, data.dueDate, data.priority, data.isDone
+            );
+        } catch(error) {
+            console.error(`Error loading from localStorage: `, error);
+            return null;
+        }
+    }
 }
 
 export const myTasks = new Tasks();
-myTasks.newTask('awaw', 'wawaawewe', '2026-01-27', 'low');
-myTasks.newTask('awaw2', 'wawaawewe2', '2026-01-28', 'high');
-myTasks.newTask('awaw2', 'wawaawewe2', '2026-01-29', 'medium');
+myTasks.newTask(crypto.randomUUID(), 'awaw', 'wawaawewe', '2026-01-27', 'low', false);
+myTasks.newTask(crypto.randomUUID(), 'awaw2', 'wawaawewe2', '2026-01-28', 'high', false);
+myTasks.newTask(crypto.randomUUID(), 'awaw2', 'wawaawewe2', '2026-01-29', 'medium', false);
 
 export const Projects = [];
 export class Project {
