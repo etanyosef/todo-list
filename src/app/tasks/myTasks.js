@@ -60,22 +60,37 @@ export class Tasks {
                 return null;
             }
             const data = JSON.parse(jsonData);
-
+            
             // rehydrate into class instance;
-            return new Task(
-                data.id, data.title, data.description, data.dueDate, data.priority, data.isDone
-            );
+            return data;
+            // return new Tasks(
+            //     data.id, data.title, data.description, data.dueDate, data.priority, data.isDone
+            // );
         } catch(error) {
-            console.error(`Error loading from localStorage: `, error);
+            console.error('Error loading from localStorage:', error);
             return null;
         }
     }
 }
 
+// initalize tasks
 export const myTasks = new Tasks();
-myTasks.newTask(crypto.randomUUID(), 'awaw', 'wawaawewe', '2026-01-27', 'low', false);
-myTasks.newTask(crypto.randomUUID(), 'awaw2', 'wawaawewe2', '2026-01-28', 'high', false);
-myTasks.newTask(crypto.randomUUID(), 'awaw2', 'wawaawewe2', '2026-01-29', 'medium', false);
+
+const loadMyTasksFromLocalStorage = () => {    
+    const data = Tasks.loadFromLocalStorage('myTasks');
+    if (!data) {
+        myTasks.newTask(
+            crypto.randomUUID(), 'Sample task', 'This is a description', '2026-01-27', 'low', false
+        );
+    } else {
+        data.tasks.forEach(task => {
+            myTasks.newTask(
+                task.id, task.title, task.description, task.dueDate, task.priority, task.isDone
+            );
+        });
+    }    
+}
+loadMyTasksFromLocalStorage();
 
 export const Projects = [];
 export class Project {
