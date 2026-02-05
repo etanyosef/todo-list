@@ -331,7 +331,9 @@ const renderAddTask = (project) => {
             renderTasks(currentProject);
         } else {
             // add new task and close dialog and clear form
-            myTasks.newTask(data.title, data.description, data.dueDate, data.priority);
+            myTasks.newTask(
+                crypto.randomUUID, data.title, data.description, data.dueDate, data.priority, false
+            );
             dialog.close();
             form.reset();
             // clear content DOM and display new tasks
