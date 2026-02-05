@@ -43,10 +43,10 @@ export class Tasks {
         }
     }
 
-    saveToLocalStorage(key) {
+    saveToLocalStorage() {
         try {
             const jsonData = JSON.stringify(this);
-            localStorage.setItem(key, jsonData);
+            localStorage.setItem('myTasks', jsonData);
         } catch(error) {
             console.error("Error saving to localStorage:", error);
         }
@@ -63,9 +63,6 @@ export class Tasks {
             
             // rehydrate into class instance;
             return data;
-            // return new Tasks(
-            //     data.id, data.title, data.description, data.dueDate, data.priority, data.isDone
-            // );
         } catch(error) {
             console.error('Error loading from localStorage:', error);
             return null;
@@ -75,8 +72,9 @@ export class Tasks {
 
 // initalize tasks
 export const myTasks = new Tasks();
+loadMyTasksFromLocalStorage();
 
-const loadMyTasksFromLocalStorage = () => {    
+function loadMyTasksFromLocalStorage() {    
     const data = Tasks.loadFromLocalStorage('myTasks');
     if (!data) {
         myTasks.newTask(
@@ -90,7 +88,6 @@ const loadMyTasksFromLocalStorage = () => {
         });
     }    
 }
-loadMyTasksFromLocalStorage();
 
 export const Projects = [];
 export class Project {
@@ -116,7 +113,18 @@ export class Project {
     }
 }
 
-console.log(myTasks);
+const saveProjectsToLocalStorage = () => {
+    try {
+        const jsonData = JSON.stringify(this);
+        localStorage.setItem('Projects', jsonData);
+    } catch(error) {
+        console.error("Error saving Projects to localStorage:", error);
+    }
+}
+
+const loadProjectsFromLocalStorage = () => {
+
+}
 
 Projects.push(new Project('Project2'));
 Projects.push(new Project('project 1'));
