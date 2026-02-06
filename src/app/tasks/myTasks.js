@@ -122,10 +122,10 @@ function loadProjectsFromLocalStorage() {
         const jsonData = localStorage.getItem('Projects');
         if(!jsonData) {
             console.warn("No data found in localStorage for key: 'Projects'.");
-            return null;
+            // return null;
         }
+        
         const data = JSON.parse(jsonData);
-
         if (!data) {
             console.warn("Creating default project...");
             Projects.push( new Project(crypto.randomUUID(), 'Project2', []) );
