@@ -5,6 +5,9 @@ import { renderTasks } from "./renderTasks.js";
 
 const pageTitleDiv = document.querySelector('.page-title');
 const pageTitleH2 = document.createElement('h2');
+const dialog = document.querySelector('dialog');
+const dialogHead = document.createElement('div');
+const dialogTitle = document.createElement('h2');
 
 export const renderProjectMenu = () => {
     const projectsMenuList = document.querySelector('.projects .sidemenu');
@@ -36,6 +39,11 @@ export const renderProjectMenu = () => {
             pageTitleDiv.textContent = '';  
             pageTitleH2.textContent = `${project.name}`;
 
+            // edit project title button
+            const editProjectTitleBtn = document.createElement('button');
+            editProjectTitleBtn.textContent = 'Edit Title';            
+            pageTitleDiv.append(editProjectTitleBtn);
+
             pageTitleDiv.prepend(pageTitleH2);
             renderTasks(project);
 
@@ -46,6 +54,10 @@ export const renderProjectMenu = () => {
                 sidebarActiveBtn.classList.remove('active');
             }
             projectLi.classList.add('active');
+
+            editProjectTitleBtn.addEventListener('click', () => {
+                renderProjectDialog('Edit', project);
+            });
         });
 
         deleteProjectBtn.addEventListener('click', () => {
@@ -67,21 +79,18 @@ export const renderProjectMenu = () => {
     projectBtn.textContent = 'New Project';
     projectBtn.prepend(newProjectIcon);
     projectBtn.addEventListener('click', () => {
-        renderAddProjectDialog();
+        renderProjectDialog('Add');
     });
 }
 
-const renderAddProjectDialog = () => {
-    const dialog = document.querySelector('dialog');
-
+const createProjectDialog = () => {
     dialog.textContent = '';
+    dialogHead.textContent = '';
 
-    const dialogHead = document.createElement('div');
-    const dialogTitle = document.createElement('h2');
     const dialogCloseBtn = document.createElement('button');
+    const buttonDiv = document.createElement('div');
 
     dialogHead.classList.add('dialog-header');
-    dialogTitle.textContent = 'New Project';
     dialogCloseBtn.textContent = 'X';
 
     dialogHead.append(dialogTitle);
@@ -90,11 +99,11 @@ const renderAddProjectDialog = () => {
     const newProjectForm = document.createElement('form');
     const newProjectDiv = document.createElement('div');
     const projectNameLabel = document.createElement('label');
-    const projectNameInput = document.createElement('input');
-    const buttonDiv = document.createElement('div');
-    const newProjectSubmitBtn = document.createElement('button');
+    const projectNameInput = document.createElement('input');    
 
+    newProjectForm.classList.add('project-form');
     newProjectDiv.classList.add('form-group');
+    buttonDiv.classList.add('form-buttons');
 
     projectNameLabel.textContent = 'Project Name';    
     projectNameLabel.htmlFor = 'project-name';
@@ -104,11 +113,6 @@ const renderAddProjectDialog = () => {
     projectNameInput.name = 'projectName';
     projectNameInput.required = true;
 
-    buttonDiv.classList.add('form-buttons');
-    newProjectSubmitBtn.textContent = 'Add';
-    newProjectSubmitBtn.type = 'submit';
-
-    buttonDiv.append(newProjectSubmitBtn);
     newProjectDiv.append(projectNameLabel, projectNameInput);
     newProjectForm.append(newProjectDiv, buttonDiv);
     dialog.append(dialogHead, newProjectForm);
@@ -120,17 +124,50 @@ const renderAddProjectDialog = () => {
         newProjectForm.reset();
         dialog.close();
     });
+}
 
-    newProjectForm.addEventListener('submit', (e) => {
+const renderProjectDialog = (btn, project) => {
+    createProjectDialog();      
+    
+    const projectForm = document.querySelector('dialog .project-form');
+    const buttonDiv = document.querySelector('form .form-buttons');
+    const newProjectSubmitBtn = document.createElement('button');
+    const projectNameInput = document.querySelector('#project-name');
+
+    buttonDiv.classList.add('form-buttons');
+
+    if (btn == 'Add') {       
+        dialogTitle.textContent = 'New Project';
+        newProjectSubmitBtn.textContent = 'Add';
+    } else if (btn == 'Edit') {
+        dialogTitle.textContent = 'Edit Project Name';
+        newProjectSubmitBtn.textContent = 'Save';
+        projectNameInput.value = project.name;
+    }
+    
+    newProjectSubmitBtn.type = 'submit';
+    buttonDiv.append(newProjectSubmitBtn);
+
+    projectForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        Projects.push(new Project(crypto.randomUUID(), projectNameInput.value, []));
-        saveProjectsToLocalStorage();
-        console.log(Projects);
 
-        newProjectForm.reset();
+        if (btn == 'Add') {
+            Projects.push(new Project(crypto.randomUUID(), projectNameInput.value, []));
+        } else if (btn == 'Edit') {
+            console.log(project.name);
+            project.name = projectNameInput.value;
+            
+            pageTitleH2.textContent = `${project.name}`;
+            renderTasks(project);
+            // TODO: set active to current project
+        }        
+        
+        saveProjectsToLocalStorage();
+
+        projectForm.reset();
         dialog.close();
         renderProjectMenu();
     });
 }
+
 
