@@ -75,7 +75,7 @@ export const myTasks = new Tasks();
 loadMyTasksFromLocalStorage();
 
 function loadMyTasksFromLocalStorage() {    
-    const data = Tasks.loadFromLocalStorage('myTasks');
+    const data = Tasks.loadFromLocalStorage();
     if (!data) {
         myTasks.newTask(
             crypto.randomUUID(), 'Sample task', 'This is a description', '2026-01-27', 'low', false
@@ -115,23 +115,48 @@ export class Project {
     }
 }
 
-const saveProjectsToLocalStorage = () => {
+// rehydrate Projects array
+loadProjectsFromLocalStorage();
+function loadProjectsFromLocalStorage() {
     try {
-        const jsonData = JSON.stringify(this);
+        const jsonData = localStorage.getItem('Projects');
+        if(!jsonData) {
+            console.warn("No data found in localStorage for key: 'Projects'.");
+            return null;
+        }
+        const data = JSON.parse(jsonData);
+
+        if (!data) {
+            Projects.push(new Project('Project2'));
+            Projects.push(new Project('project 1'));
+        } else {
+            data.forEach(project => {
+                Projects.push( new Project(project.id, project.name, project.tasks) );
+                const index = Projects.indexOf(project.id);
+                console.log(project.id);
+                console.log(index);
+                console.log(Projects);
+            });
+        }
+    } catch(error) {
+        console.error("Error loading from localStorage:", error);
+        return null;
+    }
+}
+    
+export const saveProjectsToLocalStorage = () => {
+    try {
+        const jsonData = JSON.stringify(Projects);
         localStorage.setItem('Projects', jsonData);
     } catch(error) {
         console.error("Error saving Projects to localStorage:", error);
     }
 }
 
-const loadProjectsFromLocalStorage = () => {
-
-}
-
-Projects.push(new Project('Project2'));
-Projects.push(new Project('project 1'));
-Projects[0].addTask('title', 'descrip', '2026-02-1', 'low');
-Projects[0].addTask('title2', 'descrip2', '2026-02-2', 'medium');
-console.log(Projects);
+// Projects.push(new Project('Project2'));
+// Projects.push(new Project('project 1'));
+// Projects[0].addTask('title', 'descrip', '2026-02-1', 'low');
+// Projects[0].addTask('title2', 'descrip2', '2026-02-2', 'medium');
+// console.log(Projects);
 
 // console.log(project1.projects[0].newTask('aw', 'aw', 'anytime', 'low'));
