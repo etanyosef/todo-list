@@ -1,4 +1,4 @@
-import { Projects, Project, myTasks } from "./myTasks.js";
+import { Projects, Project, saveProjectsToLocalStorage } from "./myTasks.js";
 
 import renderTasksToday from "./renderTasks.js";
 import { renderTasks } from "./renderTasks.js";
@@ -124,7 +124,8 @@ const renderAddProjectDialog = () => {
     newProjectForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        Projects.push(new Project(projectNameInput.value));
+        Projects.push(new Project(crypto.randomUUID(), projectNameInput.value, []));
+        saveProjectsToLocalStorage();
         console.log(Projects);
 
         newProjectForm.reset();
