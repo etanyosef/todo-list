@@ -89,12 +89,14 @@ function loadMyTasksFromLocalStorage() {
     }    
 }
 
+// initialize projects array
 export const Projects = [];
+
 export class Project {
-    constructor(name) {
-        this.id = crypto.randomUUID();
+    constructor(id, name, tasks) {
+        this.id = id;
         this.name = name;
-        this.tasks = [];
+        this.tasks = [...tasks];
     }
 
     addTask(title, description, dueDate, priority) {
