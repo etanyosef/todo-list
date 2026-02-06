@@ -1,4 +1,4 @@
-import { myTasks, Tasks } from './myTasks.js';
+import { myTasks, saveProjectsToLocalStorage, Tasks } from './myTasks.js';
 import { format, isPast, isThisMonth, isThisWeek, isToday, toDate } from 'date-fns';
 
 const body = document.querySelector('body');
@@ -113,15 +113,8 @@ export const renderTasks = (project) => {
             taskContainerDiv.append(taskDiv);
         }
 
-        doneBtn.addEventListener('click', ()=> {
-            if (project.name != undefined) {
-                task.isDone = !task.isDone;
-                renderTasks(project);
-            } else {
-                task.toggleDone();
-                renderDefaultTasks();
-                myTasks.saveToLocalStorage();
-            }
+        doneBtn.addEventListener('click', () => {
+            toggleDoneTask(project, task);
         });
 
         editBtn.addEventListener('click', () => {
@@ -129,16 +122,8 @@ export const renderTasks = (project) => {
         });
 
         deleteBtn.addEventListener('click', () => {
-            // check if its in a project
-            if (project.name != undefined) {
-                project.deleteTask(task.id);
-                renderTasks(project);
-            } else {
-                myTasks.deleteTask(task.id);
-                myTasks.saveToLocalStorage();
-                renderDefaultTasks();
-            }
-        });
+            deleteTask(project, task);
+        });  
     });
 
     // add new task button
@@ -313,36 +298,7 @@ const renderAddTask = (project) => {
 
     buttonAddTask.addEventListener('click', (e) => {
         e.preventDefault();
-
-        if (validateForm() == 1) {
-            return;
-        }
-
-        // get the input data from form
-        const newTaskData = new FormData(form);
-        const data = Object.fromEntries(newTaskData);
-
-        if (project.name != undefined) {
-            const currentProject = project;
-
-            currentProject.addTask(data.title, data.description, data.dueDate, data.priority);
-            
-            dialog.close();
-            form.reset();
-            renderTasks(currentProject);
-        } else {
-            // add new task
-            myTasks.newTask(
-                crypto.randomUUID, data.title, data.description, data.dueDate, data.priority, false
-            );
-            // save tasks to localStorage
-            myTasks.saveToLocalStorage();
-            // close dialog and clear form
-            dialog.close();
-            form.reset();
-            // clear content DOM and display new tasks
-            renderDefaultTasks();
-        }        
+        setNewTask(project);                
     });
 }
 
@@ -367,48 +323,20 @@ const renderEditTask = (task, project) => {
 
     // clear the form-buttons and display the save button for edit
     const buttonDiv = document.querySelector('form .form-buttons');
-    const buttonAddTask = document.createElement('button');
+    const buttonUpdateTask = document.createElement('button');
 
     buttonDiv.textContent = '';
-    buttonAddTask.textContent = 'Save';
-    buttonAddTask.id = 'save-btn';
-    buttonAddTask.type = 'submit';
+    buttonUpdateTask.textContent = 'Save';
+    buttonUpdateTask.id = 'save-btn';
+    buttonUpdateTask.type = 'submit';
 
-    buttonDiv.append(buttonAddTask);
+    buttonDiv.append(buttonUpdateTask);
 
     dialog.showModal();
 
-    buttonAddTask.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        if (validateForm() == 1) {
-            return;
-        }
-        
-        const selectedPriority = document.querySelector('input[name="priority"]:checked').value;
-        
-        if (project.name != undefined)  {
-            const currentProject = project;
-            task.title = title.value;
-            task.description = description.value;
-            task.dueDate = dueDate.value;
-            task.priority = selectedPriority;
-
-            dialog.close();
-            form.reset();
-            renderTasks(currentProject);
-        } else {
-            task.title = title.value;
-            task.description = description.value;
-            task.dueDate = dueDate.value;
-            task.priority = selectedPriority;
-
-            myTasks.saveToLocalStorage();
-            dialog.close();
-            form.reset();
-            renderDefaultTasks();
-        }       
-        
+    buttonUpdateTask.addEventListener('click', (e) => {
+        e.preventDefault();               
+        updateTask(project, task);
     });
 }
 
@@ -437,4 +365,94 @@ const validateForm = () => {
         }   
         return 1;   
     } 
+}
+
+function setNewTask(project) {
+    if (validateForm() == 1) {
+            return;
+    }
+    // get the input data from form
+    const newTaskData = new FormData(form);
+    const data = Object.fromEntries(newTaskData);
+
+    if (project.name != undefined) {
+        const currentProject = project;
+        currentProject.addTask(data.title, data.description, data.dueDate, data.priority);
+        saveProjectsToLocalStorage();
+        dialog.close();
+        form.reset();
+        renderTasks(currentProject);
+    } else {
+        // add new task
+        myTasks.newTask(
+            crypto.randomUUID(), data.title, data.description, data.dueDate, data.priority, false
+        );
+        // save tasks to localStorage
+        myTasks.saveToLocalStorage();
+        // close dialog and clear form
+        dialog.close();
+        form.reset();
+        // clear content DOM and display new tasks
+        renderDefaultTasks();
+    }
+}
+
+function toggleDoneTask(project, task) {
+    if (project.name != undefined) {
+        task.isDone = !task.isDone;
+        saveProjectsToLocalStorage();
+        renderTasks(project);
+    } else {
+        task.toggleDone();
+        renderDefaultTasks();
+        myTasks.saveToLocalStorage();
+    }
+}
+
+function deleteTask(project, task) {
+    // check if its in a project
+    if (project.name != undefined) {
+        project.deleteTask(task.id);
+        saveProjectsToLocalStorage();
+        renderTasks(project);
+    } else {
+        myTasks.deleteTask(task.id);
+        myTasks.saveToLocalStorage();
+        renderDefaultTasks();
+    }
+}
+
+function updateTask(project, task) {
+    if (validateForm() == 1) {
+        return;
+    }
+        
+    const title = document.getElementById('task-title');
+    const description = document.getElementById('task-description');
+    const dueDate = document.getElementById('task-due-date');
+    const selectedPriority = document.querySelector('input[name="priority"]:checked').value;
+        
+    if (project.name != undefined)  {
+        const currentProject = project;
+
+        task.title = title.value;
+        task.description = description.value;
+        task.dueDate = dueDate.value;
+        task.priority = selectedPriority;
+
+        saveProjectsToLocalStorage();
+        dialog.close();
+        form.reset();
+        renderTasks(currentProject);
+    } else {
+        task.title = title.value;
+        task.description = description.value;
+        task.dueDate = dueDate.value;
+        task.priority = selectedPriority;
+
+        myTasks.saveToLocalStorage();
+        dialog.close();
+        form.reset();
+        renderDefaultTasks();
+    }
 }
