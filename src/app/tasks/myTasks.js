@@ -52,11 +52,11 @@ export class Tasks {
         }
     }
 
-    static loadFromLocalStorage(myTasks) {
+    static loadFromLocalStorage() {
         try {
-            const jsonData = localStorage.getItem(myTasks);
+            const jsonData = localStorage.getItem('myTasks');
             if (!jsonData) {
-                console.warn(`No data found in localStorage for key: ${myTasks}`);
+                console.warn(`No data found in localStorage for key: 'myTasks'`);
                 return null;
             }
             const data = JSON.parse(jsonData);
