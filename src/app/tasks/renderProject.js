@@ -3,7 +3,6 @@ import { Projects, Project, saveProjectsToLocalStorage } from "./myTasks.js";
 import renderTasksToday from "./renderTasks.js";
 import { renderTasks } from "./renderTasks.js";
 
-const mainContent = document.querySelector('.content');
 const pageTitleDiv = document.querySelector('.page-title');
 const pageTitleH2 = document.createElement('h2');
 
@@ -54,6 +53,7 @@ export const renderProjectMenu = () => {
             // and splice it from Project array
             const index = Projects.indexOf(project);
             Projects.splice(index, 1);
+            saveProjectsToLocalStorage();
 
             renderProjectMenu();
             renderTasksToday();
