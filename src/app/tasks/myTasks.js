@@ -127,15 +127,12 @@ function loadProjectsFromLocalStorage() {
         const data = JSON.parse(jsonData);
 
         if (!data) {
-            Projects.push(new Project('Project2'));
-            Projects.push(new Project('project 1'));
+            console.warn("Creating default project...");
+            Projects.push( new Project(crypto.randomUUID(), 'Project2', []) );
+            // Projects.push(new Project('project 1'));
         } else {
             data.forEach(project => {
                 Projects.push( new Project(project.id, project.name, project.tasks) );
-                const index = Projects.indexOf(project.id);
-                console.log(project.id);
-                console.log(index);
-                console.log(Projects);
             });
         }
     } catch(error) {
