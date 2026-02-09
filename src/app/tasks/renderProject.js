@@ -154,20 +154,21 @@ const renderProjectDialog = (btn, project) => {
 
         if (btn == 'Add') {
             Projects.push(new Project(crypto.randomUUID(), projectNameInput.value, []));
-        } else if (btn == 'Edit') {
-            console.log(project.name);
-            project.name = projectNameInput.value;
             
+            renderProjectMenu();
+        } else if (btn == 'Edit') {
+            project.name = projectNameInput.value;            
             pageTitleH2.textContent = `${project.name}`;
             renderTasks(project);
-            // TODO: set active to current project
+            // render sidemenu and add active class to current project
+            renderProjectMenu();
+            const currentProject = document.querySelector(`.project-${project.name}`);
+            currentProject.parentElement.classList.add('active');
         }        
         
         saveProjectsToLocalStorage();
-
         projectForm.reset();
         dialog.close();
-        renderProjectMenu();
     });
 }
 
