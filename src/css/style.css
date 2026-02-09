@@ -47,6 +47,27 @@
     color: #003049;
     background-color: #e5e5e5;
 }
+
+.header .page-title {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+}
+
+.header .page-title button {
+    border: none;
+    padding: 0;
+    background-color: transparent;
+}
+
+.header .page-title svg {
+    width: 1.6rem;
+    cursor: pointer;
+    fill: rgb(140, 140, 140);
+}
+.header .page-title svg:hover {
+    fill:  black;
+}
 /* header end */
 
 /* sidebar start */
