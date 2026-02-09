@@ -28,7 +28,7 @@ export const renderProjectMenu = () => {
         
         projectBtn.textContent = project.name;
         projectBtn.classList.add('nav-btn');
-        projectBtn.classList.add(`project-${project.name}`);
+        projectBtn.classList.add(`project-${project.id}`);
         deleteProjectBtn.innerHTML = svgDeleteCode;
         deleteProjectBtn.classList.add('delete-btn');
 
@@ -165,7 +165,7 @@ const renderProjectDialog = (btn, project) => {
             renderTasks(project);
             // render sidemenu and add active class to current project
             renderProjectMenu();
-            const currentProject = document.querySelector(`.project-${project.name}`);
+            const currentProject = document.querySelector(`.project-${project.id}`);
             currentProject.parentElement.classList.add('active');
         }        
         
