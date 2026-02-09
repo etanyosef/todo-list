@@ -28,6 +28,7 @@ export const renderProjectMenu = () => {
         
         projectBtn.textContent = project.name;
         projectBtn.classList.add('nav-btn');
+        projectBtn.classList.add(`project-${project.name}`);
         deleteProjectBtn.innerHTML = svgDeleteCode;
         deleteProjectBtn.classList.add('delete-btn');
 
