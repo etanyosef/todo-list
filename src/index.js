@@ -1,9 +1,9 @@
 import './css/style.css';
 import './css/reset.css';
 
-import renderInbox, { renderMonthTasks, renderWeekTasks } from './app/tasks/renderTasks.js';
+import renderInbox, { renderMonthTasks, renderWeekTasks } from './js/renderTasks.js';
 
-import { renderProjectMenu } from './app/tasks/renderProject.js';
+import { renderProjectMenu } from './js/renderProject.js';
 
 // render projects menu and inbox tasks
 renderProjectMenu();
