@@ -64,14 +64,16 @@ export const renderProjectMenu = () => {
         });
 
         deleteProjectBtn.addEventListener('click', () => {
-            // get index of the project 
-            // and splice it from Project array
-            const index = Projects.indexOf(project);
-            Projects.splice(index, 1);
-            saveProjectsToLocalStorage();
+            if (confirm('Delete project?') == true) {
+                // get index of the project 
+                // and splice it from Project array
+                const index = Projects.indexOf(project);
+                Projects.splice(index, 1);
+                saveProjectsToLocalStorage();
 
-            renderProjectMenu();
-            renderTasksToday();
+                renderProjectMenu();
+                renderTasksToday();
+            }            
         });
     });
     
